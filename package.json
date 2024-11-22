@@ -1,0 +1,14 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:docker": "cd ./docker && docker-compose -f docker-compose.base.yaml up -d",
+    "start:auth": "cd ./auth-service && yarn start:dev",
+    "start:notify": "cd ./notify-service && yarn start:dev",
+    "start:redis": "cd ./redis-service && yarn start:dev",
+    "start:all": "npm run start:docker && npm run start:auth && npm run start:notify && npm run start:redis",
+    "stop:docker": "cd ./docker && docker-compose -f docker-compose.base.yaml down"
+  }
+}

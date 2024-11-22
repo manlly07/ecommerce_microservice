@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=mysql://root:root@auth-db:3306/userdb
+      - QUEUE_URL=amqp://rabbitmq:5672
+    depends_on:
+      - auth-db
+      - rabbitmq
+    volumes:
+      - ./auth-service:/usr/src/app # Đồng bộ mã nguồn trong development (nếu cần)
+
+  notify-service:
+    build:
+      context: ./notify-service
+      dockerfile: Dockerfile
+    environment:
+      - QUEUE_URL=amqp://rabbitmq:5672 # RabbitMQ URL
+      - MAIL_HOST=smtp.gmail.com    # SMTP server
+      - MAIL_PORT=587                    # SMTP port
+      - MAIL_USER=dvc.290603@gmail.com # Email đăng nhập
+      - MAIL_PASS=cedp dere gnsl bwru # Mật khẩu
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./notify-service:/usr/src/app # Đồng bộ mã nguồn trong development (nếu cần)
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672" # Giao diện quản lý RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  auth-db:
+    image: mysql:8.4.2
+    container_name: auth-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+    volumes:
+      - auth-db-data:/var/lib/mysql
+
+volumes:
+  auth-db-data:

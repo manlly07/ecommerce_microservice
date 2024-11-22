@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-base
+    ports:
+      - "5672:5672"
+      - "15672:15672" # Giao diện quản lý RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  auth-db:
+    image: mysql:8.4.2
+    container_name: auth-db-base
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+    volumes:
+      - auth-db-data:/var/lib/mysql
+
+  product-db:
+    image: mongo:latest
+    container_name: product-db-base
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: productdb
+    volumes:
+      - product-db-data:/data/db
+
+volumes:
+  auth-db-data:
+  product-db-data:

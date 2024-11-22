@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Include từ auth-service
+  auth-service:
+    extends:
+      file: docker-compose.auth.yaml
+      service: auth-service
+
+  # Include từ notify-service
+  notify-service:
+    extends:
+      file: docker-compose.notify.yaml
+      service: notify-service
+
+  # Include từ base services
+  rabbitmq:
+    extends:
+      file: docker-compose.base.yaml
+      service: rabbitmq
+
+  auth-db:
+    extends:
+      file: docker-compose.base.yaml
+      service: auth-db

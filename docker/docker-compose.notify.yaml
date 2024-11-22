@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  notify-service:
+    build:
+      context: ./notify-service
+      dockerfile: Dockerfile
+    environment:
+      - QUEUE_URL=amqp://rabbitmq:5672 # RabbitMQ URL
+      - MAIL_HOST=smtp.gmail.com    # SMTP server
+      - MAIL_PORT=587                    # SMTP port
+      - MAIL_USER=dvc.290603@gmail.com # Email đăng nhập
+      - MAIL_PASS=cedp dere gnsl bwru # Mật khẩu
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./notify-service:/usr/src/app # Đồng bộ mã nguồn trong development (nếu cần)
+
