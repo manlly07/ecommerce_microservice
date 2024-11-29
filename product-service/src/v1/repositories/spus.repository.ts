@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MongoRepository } from './mongo.repository';
-import { Spu } from 'src/schemas/spus.schema';
+import { Spu } from '../schemas/spus.schema';
 
 @Injectable()
 export class SpusRepository extends MongoRepository<Spu> {

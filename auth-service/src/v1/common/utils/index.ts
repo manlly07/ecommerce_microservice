@@ -61,18 +61,27 @@ export const updateNestedObjectParser = (obj: object) => {
     return final
 }
 
-export const updateNestedArrayParser = (obj: any) => {
-    const flattenedData = obj.user_roles.flatMap(userRole =>
-        userRole.role.role_permissions.map(permission => ({
-          role_name: userRole.role.role_name,
-          user_id: obj.id,
-          role_id: userRole.role_id,
-          permission_id: permission.permission_id,
-          permission_name: permission.permission.permission_name,
-        }))
-    );
-    
-    return flattenedData
+export const updateNestedArrayParser = (data: Array<object>) => {
+    // Kiểm tra xem dữ liệu có hợp lệ không
+    if (!Array.isArray(data)) {
+        console.error("Dữ liệu không hợp lệ!");
+        return [];
+    }
+
+    // Kết quả chứa dữ liệu sau khi unwind
+    const result = [];
+
+    // Duyệt qua mỗi phần tử trong mảng user_roles
+    data.forEach((userRole: any) => {
+        // Duyệt qua mỗi phần tử trong mảng role_permissions
+        userRole.role.role_permissions.forEach(permission => {
+            // Thêm permission_name vào mảng kết quả
+            result.push(permission.permission.permission_name);
+        });
+    });
+
+
+    return result;
 }
 
 export const SuccessResponse = (

@@ -3,26 +3,27 @@ import { randomUUID } from 'crypto';
 import { SpusRepository } from 'src/v1/repositories/spus.repository';
 import { SkusService } from '../skus/skus.service';
 import { ISPU } from './spus.dto';
+import { UserClientService } from 'src/v1/connections/init.grpc.user';
 
 @Injectable()
 export class SpusService {
     constructor(
-        private spusRepository: SpusRepository,
-        private skuService: SkusService,
+        private _spusRepository: SpusRepository,
+        private _skuService: SkusService,
+        private userClientService: UserClientService
     ) {}
 
     async findAll() {
-        return await this.spusRepository.findAll();
+        return await this._spusRepository.findAll();
     }
 
     async create(dto: ISPU) {
-        const foundShop = await this.userService.findById({
-            user_id: dto.product_shop,
-        });
+
+        const foundShop = await this.userClientService.isUserExists(dto.product_shop);
 
         if(!foundShop) throw new NotFoundException('Shop not found');
 
-        const newSpu = await this.spusRepository.create(dto);
+        const newSpu = await this._spusRepository.create(dto);
 
         if(newSpu && dto.sku_list.length > 0) {
             const convertSkuList = dto.sku_list.map(sku => {
@@ -33,14 +34,14 @@ export class SpusService {
                 }
             });
 
-            await this.skuService.createMany(convertSkuList);
+            await this._skuService.createMany(convertSkuList);
         }
 
         return !!newSpu;
     }
 
     async getSpuById(spu_id: string) {
-        const spu = await this.spusRepository.aggregate([
+        const spu = await this._spusRepository.aggregate([
             {
                 $match: {
                     product_id: spu_id
@@ -74,5 +75,4 @@ export class SpusService {
 
         return spu;
     }
-
 }

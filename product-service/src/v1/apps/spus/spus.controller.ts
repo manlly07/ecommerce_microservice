@@ -8,12 +8,12 @@ export class SpusController {
 
     @Get()
     async findAll() {
+        console.log("Get all...");
         return this._spusService.findAll();
     }
 
     @Post()
     async create(@Body() data: ISPU) {
-        console.log(data)
         return await this._spusService.create(data);
     }
 

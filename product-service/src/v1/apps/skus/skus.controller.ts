@@ -12,6 +12,7 @@ export class SkusController {
 
     @Get(':spu_id')
     async getSkuBySpuId(@Param('spu_id') spu_id: string) {
+        console.log(spu_id);
         return this._skusService.allSkuBySpuId({ product_id: spu_id });
     }
 

@@ -9,6 +9,8 @@ export class UserRepository extends PrismaRepository<users> {
     async findByEmail(params: {
         user_email: string;
         where?: any;
+        include?: object
+
     }) {
         const { user_email, where = {} } = params;
         return await ( this.getModel() as any ).findUnique({
@@ -16,6 +18,7 @@ export class UserRepository extends PrismaRepository<users> {
                 user_email: user_email,
                 ...where
             },
+            include: params?.include
         });
     }
 }

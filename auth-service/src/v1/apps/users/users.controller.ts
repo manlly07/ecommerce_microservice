@@ -6,9 +6,9 @@ import { AuthGuard } from 'src/v1/common/guard/auth.guard';
 import { InfoGuard } from 'src/v1/common/guard/info.guard';
 import { Permissions } from 'src/v1/common/utils';
 import { PermissionsGuard } from 'src/v1/common/guard/permission.guard';
+import { GrpcMethod } from '@nestjs/microservices';
 
 @Controller('users')
-@UseGuards(InfoGuard)
 export class UsersController {
     constructor(
         private _usersService: UsersService
@@ -21,6 +21,7 @@ export class UsersController {
         }
     }
     
+    @UseGuards(InfoGuard)
     @Post('login')
     async login(@Body() dto: UserLoginRequest, @Res() response: Response) {
         console.log(dto);
@@ -29,7 +30,19 @@ export class UsersController {
             data: await this._usersService.login(dto, response)
         })
     }
+    
+    @UseGuards(InfoGuard)
+    @Post('logout')
+    async logout(@Req() request: Request) {
+        const refreshToken = request.cookies['refresh_token'];
+        return {
+            message: 'Logout success',
+            data: await this._usersService.logout(refreshToken)
+        }
+        
+    }
 
+    @UseGuards(InfoGuard)
     @Get('verify')
     async verify(@Query('token') token: string) {
         await this._usersService.verify(token);
@@ -37,13 +50,14 @@ export class UsersController {
             message: 'Check your email to get your password!'
         }
     }
-    @Permissions('View Statistic')
-    @UseGuards(AuthGuard, PermissionsGuard)
+    @UseGuards(InfoGuard ,AuthGuard, PermissionsGuard)
+    @Permissions('View Users')
     @Post('authenticated')
     async authenticated(@Req() request: Request) {
         return await this._usersService.authenticated(request.body.user_id);
     }
-
+    
+    @UseGuards(InfoGuard)
     @Post('refresh')
     async refresh(@Body() dto: any, @Req() request: Request, @Res() response: Response) {
         console.log("controller");
@@ -57,5 +71,17 @@ export class UsersController {
             message: 'Refresh token success',
             data: metadata
         })
+    }
+    
+    @UseGuards(InfoGuard)
+    @Get(':user_id')
+    async getUserById(user_id: string) {
+        return await this._usersService.authenticated(user_id);
+    }
+
+    @GrpcMethod('UserService', 'FindUserById')
+    async FindUserById(data: { userId: string }): Promise<{ exists: boolean }> {
+        console.log("Controller -> UserService -> FindUserById -> data", data);
+        return this._usersService.FindUserById(data.userId);
     }
 }

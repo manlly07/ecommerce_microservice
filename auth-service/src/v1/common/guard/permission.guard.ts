@@ -7,7 +7,6 @@ import { UsersService } from 'src/v1/apps/users/users.service';
 export class PermissionsGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private _usersService: UsersService,
     private _userRoleService: UserRoleService
   ) {}
 
@@ -19,9 +18,10 @@ export class PermissionsGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user_id = request.headers['x-client-id'];
     
-    const permissions = await this._userRoleService.getUserRoles(user_id);
+    const permissions = request['user'].roles
+
+    // const permissions = await this._userRoleService.getUserRoles(user_id);
     
     const hasPermissions = requiredPermissions.every((requiredPermission) => permissions.includes(requiredPermission));
     
