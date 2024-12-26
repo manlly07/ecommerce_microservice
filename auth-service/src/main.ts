@@ -34,7 +34,7 @@ async function bootstrap() {
   app.startAllMicroservices()
   await app.listen(PORT,() => {
     console.log("Auth Server listening on port: " + PORT);
-    console.log('Connecting to gRPC server on: ', `${process.env.HOST}:${process.env.PORT}`);
+    console.log('Connecting to gRPC server on: ', `${process.env.HOST}:${5000}`);
     console.log('Connecting to RMQ server at: ', process.env.QUEUE_URL);
   });
   

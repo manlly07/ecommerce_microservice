@@ -27,7 +27,6 @@ export class UserClientService implements OnModuleInit {
 
   async isUserExists(userId: string): Promise<boolean> {
     try {
-      console.log(userId)
       const response  = await firstValueFrom(this.userService.findUserById({ userId: userId }));
       return response.exists;
     } catch (error) {

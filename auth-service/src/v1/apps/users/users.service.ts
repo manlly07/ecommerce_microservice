@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { UserLoginRequest } from './users.dto';
+import { PaginationsRequest, UserLoginRequest } from './users.dto';
 import { UserRepository } from 'src/v1/repositories/user.repository';
 import { ClientProxy, GrpcMethod } from '@nestjs/microservices';
 import { generateToken, unGetSelectDataFromObject, updateNestedArrayParser, verifyToken } from 'src/v1/common/utils';
@@ -204,6 +204,7 @@ export class UsersService {
     }
 
     async authenticated(user_id: string) {
+        console.log(user_id)
         let user = await firstValueFrom(
             this._redisClient.send('get', {
                 key: `user:${user_id}`
@@ -314,4 +315,14 @@ export class UsersService {
         }); // Kiểm tra user_id trong DB
         return { exists: !!userExists };
     }
+
+    async getUsers(pagination: PaginationsRequest) {
+        const page = pagination.page ? parseInt(pagination.page.toString()) : 1;
+        const perPage = pagination.perPage ? parseInt(pagination.perPage.toString()) : 10;
+        return await this._userRepository.findAll({
+            skip: (page - 1) * perPage,
+            take: perPage
+        });
+    }
+
 }

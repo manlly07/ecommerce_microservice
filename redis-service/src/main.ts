@@ -15,5 +15,6 @@ async function bootstrap() {
   });
 
   await app.listen();
+  console.log('Redis servicee is running');
 }
 bootstrap();

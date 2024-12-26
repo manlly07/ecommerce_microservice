@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { SpusRepository } from 'src/v1/repositories/spus.repository';
 import { SkusService } from '../skus/skus.service';
-import { ISPU } from './spus.dto';
+import { IFilterOptions, ISPU } from './spus.dto';
 import { UserClientService } from 'src/v1/connections/init.grpc.user';
 
 @Injectable()
@@ -13,18 +13,42 @@ export class SpusService {
         private userClientService: UserClientService
     ) {}
 
-    async findAll() {
-        return await this._spusRepository.findAll();
+    async findAll(dto: IFilterOptions) {
+        const filter: any = {};
+        console.log(dto);
+        if (dto.category) {
+            filter.product_category = dto.category;
+        }
+    
+        if (dto.shop) {
+            filter.product_shop = dto.shop;
+        }
+    
+        if (dto.minPrice) {
+            filter.product_price = { $gte: dto.minPrice };
+        }
+    
+        if (dto.maxPrice) {
+            filter.product_price = { ...filter.product_price, $lte: dto.maxPrice };
+        }
+    
+        if (dto.rate) {
+            filter.product_rate = dto.rate;
+        }
+
+        // filter.isPublished = true;
+        
+        const { page = 1, perPage = 20 } = dto;
+        return await this._spusRepository.findAll({ filter, page, perPage });
     }
 
     async create(dto: ISPU) {
-
         const foundShop = await this.userClientService.isUserExists(dto.product_shop);
 
         if(!foundShop) throw new NotFoundException('Shop not found');
 
         const newSpu = await this._spusRepository.create(dto);
-
+        console.log(newSpu);
         if(newSpu && dto.sku_list.length > 0) {
             const convertSkuList = dto.sku_list.map(sku => {
                 return {
@@ -74,5 +98,39 @@ export class SpusService {
         ])
 
         return spu;
+    }
+
+    async publishProductByShop(spu_id: string) {
+        return await this._spusRepository.update({
+            filter: { product_id: spu_id },
+            data: { 
+                isPublished: true,
+                isDraft: false
+            }
+        });
+    }
+
+    async unpublishProductByShop(spu_id: string) {
+        return await this._spusRepository.update({
+            filter: { product_id: spu_id },
+            data: { isPublished: false, isDraft: true }
+        });
+    }
+
+    async findAllPublishForShop(shop_id: string) {
+        return await this._spusRepository.findAll({
+            filter: { product_shop: shop_id, isPublished: true }
+        });
+    }
+
+    async findAllDraftsForShop(shop_id: string) {
+        return await this._spusRepository.findAll({
+            filter: { product_shop: shop_id, isDraft: true }
+        });
+    }
+
+    async CheckProductExists(product_id: string) {
+        const foundProduct = await this._skuService.oneSku({ sku_id: product_id });
+        return { exists: !!foundProduct };
     }
 }

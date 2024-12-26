@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package product;
+
+service ProductService {
+
+    rpc CheckProductExists (CheckProductExistsRequest) returns (CheckProductExistsResponse);
+
+}
+
+message CheckProductExistsRequest {
+  string product_id = 1; 
+}
+
+message CheckProductExistsResponse {
+  bool exists = 1;       
+}

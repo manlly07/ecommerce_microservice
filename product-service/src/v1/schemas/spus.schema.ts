@@ -30,8 +30,8 @@ export class Spu extends Document {
   @Prop({ required: true })
   product_quantity: number;
 
-  @Prop({ type: Types.ObjectId, ref: 'Shop' })
-  product_shop: Types.ObjectId;
+  @Prop({ type: String })
+  product_shop: String;
 
   @Prop({ type: Map, of: String, required: true })
   product_attributes: Record<string, any>;

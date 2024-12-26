@@ -20,4 +20,5 @@ export class SkusController {
     async getOneSku(@Param('sku_id') sku_id: string) {
         return this._skusService.oneSku({ sku_id });
     }
+
 }

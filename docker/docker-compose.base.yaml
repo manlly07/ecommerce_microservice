@@ -27,12 +27,22 @@ services:
       MYSQL_DATABASE: userdb
     volumes:
       - auth-db-data:/var/lib/mysql
+  cart-db:
+    image: mysql:8.4.2
+    container_name: cart-db-base
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userdb
+    volumes:
+      - cart-db-data:/var/lib/mysql
 
   product-db:
     image: mongo:latest
     container_name: product-db-base
     ports:
-      - "27017:27017"
+      - "27018:27017"
     environment:
       # MONGO_INITDB_ROOT_USERNAME: root
       # MONGO_INITDB_ROOT_PASSWORD: root
@@ -43,3 +53,4 @@ services:
 volumes:
   auth-db-data:
   product-db-data:
+  cart-db-data:

@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserLoginRequest, UserRegisterRequest } from './users.dto';
+import { PaginationsRequest, UserLoginRequest, UserRegisterRequest } from './users.dto';
 import { Response, Request } from 'express';
 import { AuthGuard } from 'src/v1/common/guard/auth.guard';
 import { InfoGuard } from 'src/v1/common/guard/info.guard';
@@ -13,6 +13,15 @@ export class UsersController {
     constructor(
         private _usersService: UsersService
     ) {}
+
+    @UseGuards(InfoGuard)
+    @Get('')
+    async getUsers(@Query() pagination: PaginationsRequest) {
+        return {
+            data: await this._usersService.getUsers(pagination)
+        };
+    }
+
     @Post('register')
     async registerUser(@Body() dto: UserRegisterRequest) {
         await this._usersService.registerUser(dto.user_email);
@@ -75,7 +84,7 @@ export class UsersController {
     
     @UseGuards(InfoGuard)
     @Get(':user_id')
-    async getUserById(user_id: string) {
+    async getUserById(@Param('user_id') user_id: string) {
         return await this._usersService.authenticated(user_id);
     }
 

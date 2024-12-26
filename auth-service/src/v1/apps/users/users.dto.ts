@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEmail, IsEmpty } from "class-validator";
+import { IsNotEmpty, IsString, IsEmail, IsEmpty, IsNumber, IsDefined } from "class-validator";
 
 export class UserLoginRequest {
     @IsNotEmpty()
@@ -24,4 +24,14 @@ export class UserRegisterRequest {
     @IsString()
     @IsEmail()
     user_email: string;
+}
+
+export class PaginationsRequest {
+    @IsNumber()
+    @IsEmpty()
+    page: number;
+
+    @IsNumber()
+    @IsEmpty()
+    perPage: number;
 }

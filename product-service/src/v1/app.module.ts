@@ -1,10 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseProvider } from './connections/init.mongodb';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { join } from 'path';
 import { SpusModule } from './apps/spus/spus.module';
 import { SkusModule } from './apps/skus/skus.module';
+import { InfoMiddleware } from './common/middlewares/info.middleware';
 
 @Module({
   imports: [
@@ -32,4 +31,10 @@ import { SkusModule } from './apps/skus/skus.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(InfoMiddleware) // Áp dụng middleware
+      .forRoutes('*');       // Áp dụng cho tất cả các route
+  }
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { SkusRepository } from 'src/v1/repositories/skus.repository';
 
 @Injectable()

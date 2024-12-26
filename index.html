@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="p-4 h-screen grid grid-cols-2 grid-rows-2 gap-4">
+        <div>
+            <canvas id="rain"></canvas>
+        </div>
+        <div>
+            <canvas id="humidity"></canvas>
+        </div>
+        <div>
+            <canvas id="vibration"></canvas>
+        </div>
+    </div>
+
+    <div class="mt-10">
+        <div class="flex items-center gap-4">
+            <div class="h4 font-semibold">Trạng thái mưa</div>
+            <label class="flex items-center"> 
+                <input type="file" id="fileInputRain" class="block w-full text-sm text-slate-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-violet-700
+                  hover:file:bg-violet-100
+                "/>
+            </label>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="h4 font-semibold">Độ ẩm đất (%)</div>
+            <label class="block">
+                <input type="file" id="fileInputHumidity" class="block w-full text-sm text-slate-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-violet-700
+                  hover:file:bg-violet-100
+                "/>
+            </label>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="h4 font-semibold">Trạng thái độ rung</div>
+            <label class="block">
+                <input type="file" id="fileInputVibration" class="block w-full text-sm text-slate-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-violet-50 file:text-violet-700
+                  hover:file:bg-violet-100
+                "/>
+            </label>
+        </div>
+    </div>
+<script>
+    // Initialize charts
+    const rainCtx = document.getElementById('rain').getContext('2d');
+    const humidityCtx = document.getElementById('humidity').getContext('2d');
+    const vibrationCtx = document.getElementById('vibration').getContext('2d');
+
+    const createChart = (ctx, label, title, color) => {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: label,
+                    data: [],
+                    borderWidth: 1,
+                    backgroundColor: color,
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: title
+                        },
+                        beginAtZero: true
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Sample thứ i'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    };
+
+    const rainChart = createChart(rainCtx, 'Trạng thái mưa', 'Trạng thái mưa', '#ff6384');
+    const humidityChart = createChart(humidityCtx, 'Độ ẩm', 'Độ ẩm đất (%)', '#9966ff');
+    const vibrationChart = createChart(vibrationCtx, 'Cấp độ rung', 'Trạng thái cấp độ rung', '#ff9f40');
+
+    // Handle file upload
+    const updateChartFromCSV = (chart, file) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0]; // Lấy sheet đầu tiên
+            const sheet = workbook.Sheets[sheetName];
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+            const labels = [];
+            const values = [];
+
+            // Bỏ qua dòng đầu tiên (tiêu đề)
+            jsonData.slice(1).forEach(row => {
+                labels.push(row[0]); // Cột 1: Sample
+                values.push(row[1]); // Cột 2: Value
+            });
+
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = values;
+            chart.update();
+        };
+
+        reader.readAsArrayBuffer(file);
+    };
+
+    document.getElementById('fileInputRain').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) updateChartFromCSV(rainChart, file);
+    });
+
+    document.getElementById('fileInputHumidity').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) updateChartFromCSV(humidityChart, file);
+    });
+
+    document.getElementById('fileInputVibration').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) updateChartFromCSV(vibrationChart, file);
+    });
+</script>
+</body>
+</html>

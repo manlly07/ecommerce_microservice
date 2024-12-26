@@ -11,3 +11,13 @@ export interface ISPU {
     product_variations: Array<object>;
     sku_list?: Array<object>;
 }
+
+export interface IFilterOptions {
+    shop?: string;
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    rate?: number;
+    page?: number;
+    perPage?: number;
+}

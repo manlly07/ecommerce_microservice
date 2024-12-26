@@ -9,10 +9,17 @@ export class MongoRepository<T extends Document> extends BaseRepository<T> {
 
     async findAll(params?: {
         filter?: object;
-        projection?: object;
+        page?: number;
+        perPage?: number;
     }): Promise<T[]> {
-        const { filter, projection } = params || {};
-        return this.model.find( filter, projection ).exec();
+        const { filter, page, perPage } = params;
+        console.log(filter)
+        return this.model.find( filter )
+            .sort({ updateAt: -1 })
+            .skip((page - 1) * perPage)
+            .limit(perPage)
+            .lean()
+            .exec() as Promise<T[]>;
     }
 
     async findById(id: any): Promise<T | null> {
