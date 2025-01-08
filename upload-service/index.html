@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas to Base64</title>
+</head>
+<body>
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <button id="capture">Chụp ảnh</button>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('capture');
+
+        // 1. Mở camera
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" },
+            audio: false,
+        }).then((stream) => {
+            video.srcObject = stream;
+        }).catch((err) => console.error("Không thể mở camera:", err));
+
+        // 2. Chụp ảnh từ canvas và chuyển thành Base64
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Chuyển canvas thành chuỗi Base64
+            const base64Image = canvas.toDataURL('image/png'); // Dạng "data:image/png;base64,..."
+            
+            console.log(base64Image); // Xem chuỗi Base64
+            downloadAsTxt(base64Image); // Ghi Base64 vào file txt
+        });
+
+        // 3. Lưu Base64 vào file .txt
+        function downloadAsTxt(base64String) {
+            const blob = new Blob([base64String], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'image.txt';
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -7,10 +7,11 @@ import { RolesModule } from './apps/roles/roles.module';
 import { PermissionsModule } from './apps/permissions/permissions.module';
 import { RolePermissionModule } from './apps/role-permission/role-permission.module';
 import { UserRoleModule } from './apps/user-role/user-role.module';
+import { PrometheusMetricsModule } from './apps/prometheus/prometheus.module';
 
 @Module({
   imports: [
-
+    PrometheusMetricsModule,
     JwtModule.register(
       {
         global:true,

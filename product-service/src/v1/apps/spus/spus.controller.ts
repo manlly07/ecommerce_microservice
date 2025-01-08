@@ -54,6 +54,6 @@ export class SpusController {
     @GrpcMethod('ProductService', 'CheckProductExists')
     async CheckProductExists(data: { productId: string }): Promise<{ exists: boolean }> {
         console.log("Controller -> ProductService -> CheckProductExists -> data", data);
-        return this._spusService.CheckProductExists(data.productId);
+        return await this._spusService.CheckProductExists(data.productId);
     }
 }

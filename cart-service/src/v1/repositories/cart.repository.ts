@@ -12,7 +12,11 @@ export class CartsRepository extends PrismaRepository<Carts> {
                 user_id: userId
             },
             include: {
-                cart_items: true
+                cart_items: {
+                    where: {
+                        isDeleted: false
+                    }
+                }
             }
         });
     }

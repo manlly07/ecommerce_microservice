@@ -36,8 +36,8 @@ export class CartsService {
     if(!cart) {
         // Nếu không có trong MySQL, tạo mới
         cart = await this.createCart(userId);
+        return cart;
     }
-
     // Lưu lại Redis để sử dụng trong tương lai
     // this._redisClient.emit('set', {
     //     key: cartKey,
@@ -72,8 +72,10 @@ export class CartsService {
     // Update cart item
     return await this._cartItemRepository.update({
       where: {
-        cart_id: cart.id,
-        product_id
+        product_id_cart_id: {
+          cart_id: cart.id,
+          product_id
+        }
       },
       data: {
         quantity: cartItems.quantity + quantity
@@ -81,8 +83,68 @@ export class CartsService {
     });
   }
 
-  async updateCartItem(user_id: string) {
+  async updateCartItem({ user_id, cart_id, action_type, updated_shop_order_ids }) {
+    const cart = await this.getCartByUser(user_id);
     
+    if(!cart) throw new NotFoundException("Cart not found!");
+    if(cart.id !== cart_id) throw new BadRequestException("Cart not match!");
+
+    // type == 0: update quantity
+    // type == 1: remove item
+    // type == 2: update is_checkout and auto apply promotion
+
+    if(action_type === 0) {
+      for(let item of updated_shop_order_ids) {
+        await this.updateQuantityCart(item.product_id, cart.id, item.quantity);
+      }
+    }
+
+    if(action_type == 1) {
+      for(let item of updated_shop_order_ids) {
+        await this.deleteItemCart(item.product_id, cart.id);
+      }
+    }
+
+    return true;
+  }
+
+  async updateQuantityCart (product_id: string, cart_id: string, quantity: number) {
+    if(quantity < 0) quantity = 0;
+    if(quantity === 0) return await this.deleteItemCart(product_id, cart_id);
+
+    const cartItems = await this._cartItemRepository.findByKey(cart_id, product_id);
+    if(!cartItems) throw new NotFoundException("Item not found!");
+
+    const state = await this._cartItemRepository.update({
+      where: {
+        cart_id,
+        product_id
+      },
+      data: {
+        quantity
+      }
+    });
+
+    if(!state) throw new BadRequestException("Update failed!");
+
+    return true;
+  }
+
+  async deleteItemCart (product_id: string, cart_id: string) {
+    const cartItems = await this._cartItemRepository.findByKey(cart_id, product_id);
+    if(!cartItems) throw new NotFoundException("Item not found!");
+
+    const state = await this._cartItemRepository.softDelete({
+      where: {
+        cart_id,
+        product_id
+      },
+      data: {
+        isDeleted: true
+      }
+    });
+
+    if(!state) throw new BadRequestException("Delete failed!");
   }
 
   // async addItemToCart( userId: string, productId: string, quantity: number, price: number ) {
@@ -95,7 +157,7 @@ export class CartsService {
   //   }
 
   //   const itemIndex = cart.items.findIndex(
-  //     (item) => item.productId === productId,
+  //     (item: { productId: string; }) => item.productId === productId,
   //   );
   //   if (itemIndex > -1) {
   //     cart.items[itemIndex].quantity += quantity;

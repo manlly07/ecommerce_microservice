@@ -5,6 +5,8 @@ import { ResponseInterceptor } from './v1/common/configs/response.interceptor';
 import { AllExceptionsFilter } from './v1/common/configs/error.filter';
 import * as cookieParser from 'cookie-parser';
 import { join } from 'path';
+import { MetricsMiddleware } from './v1/apps/prometheus/metrics.middleware';
+import { GlobalMiddleware } from './v1/common/configs/global.middleware';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -29,7 +31,10 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
+  app.use(new MetricsMiddleware().use);
   app.use(cookieParser());
+  app.use(new GlobalMiddleware().use);
+
   
   app.startAllMicroservices()
   await app.listen(PORT,() => {

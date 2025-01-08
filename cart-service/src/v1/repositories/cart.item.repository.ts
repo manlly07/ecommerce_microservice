@@ -9,8 +9,10 @@ export class CartItemRepository extends PrismaRepository<CartItem> {
     async findByKey(cart_id: string, product_id: string) {
         return await (this.getModel() as any).findUnique({
             where: {
-                cart_id: cart_id,
-                product_id: product_id
+                product_id_cart_id: {
+                    cart_id: cart_id,
+                    product_id: product_id
+                }
             },
         });
     }

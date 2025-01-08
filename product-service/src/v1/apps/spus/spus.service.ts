@@ -131,6 +131,7 @@ export class SpusService {
 
     async CheckProductExists(product_id: string) {
         const foundProduct = await this._skuService.oneSku({ sku_id: product_id });
+        console.log(foundProduct);
         return { exists: !!foundProduct };
     }
 }

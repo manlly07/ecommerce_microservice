@@ -11,6 +11,15 @@ import { SuccessResponse } from '../utils';
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+
+    const ctx = context.switchToHttp();
+    const request = ctx.getRequest();
+
+    // Skip wrapping for the /metrics endpoint
+    if (request.url === '/metrics') {
+      return next.handle();
+    }
+
     return next.handle().pipe(
       map((data) => {
         if (data?.success === false) return data; // Nếu là lỗi, giữ nguyên

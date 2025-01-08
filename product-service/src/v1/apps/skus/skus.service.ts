@@ -20,7 +20,7 @@ export class SkusService {
     async oneSku({ sku_id }) {
         
         // read db
-        const sku = await this._skusRepository.findOne({ sku_id });
+        const sku = await this._skusRepository.findOne( { sku_id: sku_id } );
 
         return sku;
     }
