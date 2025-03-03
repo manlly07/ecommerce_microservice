@@ -5,7 +5,7 @@
 
 /docker/data/*
 /docker/grafana_data/*
-/docker/prometheus/*
+/docker/prometheus/prometheus_data/*
 
 # Logs
 logs
