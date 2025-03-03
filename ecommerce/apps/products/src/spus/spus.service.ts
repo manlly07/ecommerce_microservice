@@ -83,16 +83,6 @@ export class SpusService {
   }
 
   //   async getSpuById(spu_id: string) {
-  //     const keys = 'PRO_TICKET:ITEM:' + spu_id;
-  //     // 1. Get data from cache
-  //     const result = await this._redisService.get(keys);
-  //     // 2. YES -> Hit cache
-  //     if (result) {
-  //       console.log('FROM CACHE');
-  //       return JSON.parse(result);
-  //     }
-  //     // 3. NO -> Miss cache
-  //     // 4. Get data from DB
   //     const spu = await this._spusRepository.aggregate([
   //       {
   //         $match: {
@@ -129,8 +119,6 @@ export class SpusService {
   //       },
   //     ]);
   //     console.log('FROM DB');
-  //     // 5. Save data to cache
-  //     await this._redisService.set(keys, JSON.stringify(spu), 'EX', 60);
   //     return spu;
   //   }
 
