@@ -8,13 +8,13 @@ import { MailerModule } from '@nestjs-modules/mailer';
 
     MailerModule.forRoot({
       transport: {
-        host: String(process.env.MAIL_HOST),
-        port: Number(process.env.MAIL_PORT),
+        host: String(process.env.MAIL_HOST) || 'smtp.gmail.com',
+        port: Number(process.env.MAIL_PORT) || 587,
         secure: false,
         service: 'Gmail',
         auth: {
-          user: process.env.MAIL_USER,
-          pass: process.env.MAIL_PASS,
+          user: process.env.MAIL_USER || "dvc.290603@gmail.com",
+          pass: process.env.MAIL_PASS || "cedp dere gnsl bwru",
         },
       },
     }),
@@ -23,4 +23,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
   controllers: [NotifyController],
   providers: [NotifyService],
 })
-export class NotifyModule {}
+export class NotifyModule {
+  
+}

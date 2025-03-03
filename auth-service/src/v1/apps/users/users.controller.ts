@@ -48,7 +48,6 @@ export class UsersController {
             message: 'Logout success',
             data: await this._usersService.logout(refreshToken)
         }
-        
     }
 
     @UseGuards(InfoGuard)

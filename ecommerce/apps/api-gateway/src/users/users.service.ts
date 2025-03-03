@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 import { LoginResponseDto } from 'y/dtos';
 import { LoginDTO } from 'y/dtos/login.dto';
 import { QueryDTO } from 'y/dtos/query.dto';
@@ -15,11 +16,62 @@ export class UsersService {
         return this._userClient.send('users.findAll', query);
     }
 
-    register(dto: LoginDTO) {
-        console.log(process.env.QUEUE_URL);
-        this._userClient.send('users.register', dto).subscribe((data) => {
-            console.log(data);
-            this._notificationClient.emit('noti.register', data);
-        })
+    async register(dto: LoginDTO) {
+        const userData = await firstValueFrom(
+            this._userClient.send('users.register', dto),
+        );
+
+        try {
+            const data = await firstValueFrom(
+                this._notificationClient.send('noti.register', userData),
+            ) as Boolean;
+            console.log("data", data);
+            return "Vui lòng xác nhận địa chỉ email đăng ký Shopping!";
+        }catch (err) {
+            throw new BadRequestException("Có lỗi xảy ra khi gửi email!");
+        }
+    }
+    
+    async verify(token: string) {
+        const userInfo = await firstValueFrom(
+            this._userClient.send('users.verify', token),
+        ) as LoginDTO;
+        
+        console.log(userInfo);
+
+        const result = await firstValueFrom(
+            this._notificationClient.send('noti.verify', userInfo),
+        ) as Boolean;
+
+        if(!result) throw new BadRequestException("Có lỗi xảy ra khi gửi email!");
+
+        return "Mật khẩu của bạn đã được gửi thông qua email!";
+    }  
+    
+    async login(dto: LoginDTO) {
+        const userData = await firstValueFrom(
+            this._userClient.send('users.login', dto),
+        );
+        return userData;
+        
+    }
+
+    async logout(refresh_token: string) {
+        if(!refresh_token) throw new ForbiddenException();
+        return await firstValueFrom(
+            this._userClient.send('users.logout', refresh_token),
+        );
+    }
+
+    async authenticated(user_id: string) {
+        return await firstValueFrom(
+            this._userClient.send('users.authenticated', user_id),
+        );
+    }
+
+    async refresh(refresh_token: string) {
+        return await firstValueFrom(
+            this._userClient.send('users.refresh', refresh_token),
+        );
     }
 }

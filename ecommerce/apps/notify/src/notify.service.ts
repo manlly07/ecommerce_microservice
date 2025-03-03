@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import TemplateEmail from './template';
 import { replacePlaceHolder } from 'y/utils';
-import { LoginResponseDto, SendMailDto } from 'y/dtos';
+import { LoginDTO, LoginResponseDto, SendMailDto } from 'y/dtos';
 import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
@@ -41,6 +41,25 @@ export class NotifyService {
       template: content,
     });
 
-    return "Vui lòng xác nhận địa chỉ email đăng ký Shopping!";
+    return true;
   }
+
+  async sendEmailPassword(payload: LoginDTO) {
+    const { user_email, user_password } = payload;
+
+    const template = TemplateEmail.htmlEmailPassword();
+
+    const content = replacePlaceHolder(template, {
+        my_password: user_password,
+    });
+
+    this.sendEmailBase({
+        toEmail: user_email,
+        subject: 'Mật khẩu tài khoản Shopping!',
+        text: 'Mật khẩu tài khoản',
+        template: content,
+    })
+
+    return true;
+}
 }

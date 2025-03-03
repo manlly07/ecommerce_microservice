@@ -14,9 +14,4 @@ export class UserRoleController {
     async assignRole(@Body('user_id') user_id: string, @Body('role_id') role_id: string) {
         return await this._userRoleService.assignRole(user_id, role_id) 
     }
-
-    @Get(':user_id')
-    async getUserRoles(@Param('user_id') user_id: string) {
-        return await this._userRoleService.getUserRoles(user_id)
-    }
 }

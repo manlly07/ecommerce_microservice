@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from 'y/prisma/generated/order';
 import { IBaseRepository } from './interfaces/base-repository.interface';
 export class MySQLBaseRepository<T, FindManyArgs, FindUniqueArgs> implements IBaseRepository<T, FindUniqueArgs, FindManyArgs> {
   constructor(
@@ -21,7 +21,7 @@ export class MySQLBaseRepository<T, FindManyArgs, FindUniqueArgs> implements IBa
     });
   }
 
-  async update(id: number, data: Partial<T>): Promise<T> {
+  async update(id: string, data: Partial<T>): Promise<T> {
     return this.modelDelegate.update({
       where: { id },
       data,

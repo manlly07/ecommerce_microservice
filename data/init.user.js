@@ -6,7 +6,9 @@ const pool = mysql.createPool({
     user: 'root',
     password: 'root',
     database: 'userdb',
-    port: 3307
+    port: 3307,
+    connectionLimit: 4,
+    maxIdle: 4,
 });
 
 const batchSize = 10000;

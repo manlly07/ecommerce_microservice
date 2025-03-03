@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+/docker/data/*
+/docker/grafana_data/*
+/docker/prometheus/*
+
 # Logs
 logs
 *.log

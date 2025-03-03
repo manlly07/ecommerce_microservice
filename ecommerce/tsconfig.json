@@ -81,6 +81,24 @@
       ],
       "y/constants/*": [
         "libs/constants/src/*"
+      ],
+      "y/configs": [
+        "libs/configs/src"
+      ],
+      "y/configs/*": [
+        "libs/configs/src/*"
+      ],
+      "y/middlewares": [
+        "libs/middlewares/src"
+      ],
+      "y/middlewares/*": [
+        "libs/middlewares/src/*"
+      ],
+      "y/guards": [
+        "libs/guards/src"
+      ],
+      "y/guards/*": [
+        "libs/guards/src/*"
       ]
     }
   }

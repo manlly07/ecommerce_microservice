@@ -33,8 +33,9 @@ model users {
   created_at    DateTime  @default(now())
   updated_at    DateTime  @default(now()) @updatedAt
 
-  user_tokens user_tokens[]
-  user_roles  user_role[]
+  user_tokens  user_tokens[]
+  user_roles   user_role[]
+  user_address UserAddress[]
 }
 
 model user_tokens {
@@ -97,4 +98,19 @@ model role_permission {
   permission    permissions @relation(fields: [permission_id], references: [id])
 
   @@id([role_id, permission_id])
+}
+
+model UserAddress {
+  id         String   @id @default(uuid()) // Primary key
+  user_name  String
+  user_phone String
+  user_id    String
+  street     String
+  district   String
+  city       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  is_deleted Boolean  @default(false)
+
+  user users @relation(fields: [user_id], references: [id])
 }

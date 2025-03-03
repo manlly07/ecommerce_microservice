@@ -1,12 +1,27 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiGatewayService } from './api-gateway.service';
 
-@Controller()
+@Controller('settings')
 export class ApiGatewayController {
   constructor(private readonly apiGatewayService: ApiGatewayService) {}
 
-  @Get()
-  getHello(): string {
-    return this.apiGatewayService.getHello();
+  @Get('payment')
+  async getPayments() {
+    return await this.apiGatewayService.getAllPayments();
+  }
+
+  @Get('payment/:id')
+  async getPaymentById(@Param('id') id: string) {
+    return await this.apiGatewayService.getPaymentById(id);
+  }
+
+  @Post('payment')
+  async createPayment(@Body() data: any) {
+    return await this.apiGatewayService.createPayment(data);
+  }
+
+  @Post('payment/setup')
+  async setupPayment() {
+    return await this.apiGatewayService.setupPayment();
   }
 }

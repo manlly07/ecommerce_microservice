@@ -31,12 +31,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.1.0
- * Query Engine version: 11f085a2012c0f4778414c8db2651556ee0ef959
+ * Prisma Client JS version: 6.2.1
+ * Query Engine version: acc0b9dd43eb689cbd20c9470515d719db10d0b0
  */
 Prisma.prismaVersion = {
-  client: "6.1.0",
-  engine: "11f085a2012c0f4778414c8db2651556ee0ef959"
+  client: "6.2.1",
+  engine: "acc0b9dd43eb689cbd20c9470515d719db10d0b0"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -160,12 +160,11 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../../.env",
-    "schemaEnvPath": "../../../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../schemas",
-  "clientVersion": "6.1.0",
-  "engineVersion": "11f085a2012c0f4778414c8db2651556ee0ef959",
+  "clientVersion": "6.2.1",
+  "engineVersion": "acc0b9dd43eb689cbd20c9470515d719db10d0b0",
   "datasourceNames": [
     "db"
   ],
@@ -189,8 +188,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "libs/prisma/src/generated/cart",
-    "prisma/src/generated/cart",
+    "../generated/cart",
+    "generated/cart",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -219,11 +218,11 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "libs/prisma/src/generated/cart/query_engine-windows.dll.node")
+path.join(process.cwd(), "../generated/cart/query_engine-windows.dll.node")
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node");
-path.join(process.cwd(), "libs/prisma/src/generated/cart/libquery_engine-linux-musl-openssl-3.0.x.so.node")
+path.join(process.cwd(), "../generated/cart/libquery_engine-linux-musl-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "libs/prisma/src/generated/cart/schema.prisma")
+path.join(process.cwd(), "../generated/cart/schema.prisma")

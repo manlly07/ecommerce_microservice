@@ -126,6 +126,69 @@
       "compilerOptions": {
         "tsConfigPath": "libs/constants/tsconfig.lib.json"
       }
+    },
+    "configs": {
+      "type": "library",
+      "root": "libs/configs",
+      "entryFile": "index",
+      "sourceRoot": "libs/configs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/configs/tsconfig.lib.json"
+      }
+    },
+    "middlewares": {
+      "type": "library",
+      "root": "libs/middlewares",
+      "entryFile": "index",
+      "sourceRoot": "libs/middlewares/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/middlewares/tsconfig.lib.json"
+      }
+    },
+    "guards": {
+      "type": "library",
+      "root": "libs/guards",
+      "entryFile": "index",
+      "sourceRoot": "libs/guards/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/guards/tsconfig.lib.json"
+      }
+    },
+    "prometheus": {
+      "type": "application",
+      "root": "apps/prometheus",
+      "entryFile": "main",
+      "sourceRoot": "apps/prometheus/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/prometheus/tsconfig.app.json"
+      }
+    },
+    "checkout": {
+      "type": "application",
+      "root": "apps/checkout",
+      "entryFile": "main",
+      "sourceRoot": "apps/checkout/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/checkout/tsconfig.app.json"
+      }
+    },
+    "checkout/address": {
+      "type": "application",
+      "root": "apps/checkout/address",
+      "entryFile": "main",
+      "sourceRoot": "apps/checkout/address/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/checkout/address/tsconfig.app.json"
+      }
+    },
+    "redis": {
+      "type": "application",
+      "root": "apps/redis",
+      "entryFile": "main",
+      "sourceRoot": "apps/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/redis/tsconfig.app.json"
+      }
     }
   }
 }

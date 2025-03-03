@@ -9,9 +9,10 @@ export class UserRepository extends MySQLBaseRepository<users, Prisma.usersFindM
     super(prisma.AuthClient as any, prisma.AuthClient.users);
   }
 
-  async findByEmail(user_email: string): Promise<users | null> {
+  async findByEmail(user_email: string, include?: Prisma.usersInclude) {
     return this.modelDelegate.findUnique({
       where: { user_email },
+      include: include,
     });
   }
 }

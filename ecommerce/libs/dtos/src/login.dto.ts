@@ -1,6 +1,7 @@
-import { IsEmail, IsString, IsOptional, MinLength } from 'class-validator';
+import { IsEmail, IsString, IsOptional, MinLength, IsIP } from 'class-validator';
+import { InfoDTO } from './info.dto';
 
-export class LoginDTO {
+export class LoginDTO implements InfoDTO {
   @IsEmail()
   user_email: string;
 
@@ -8,4 +9,12 @@ export class LoginDTO {
   @IsString()
   @MinLength(6)
   user_password?: string;
+
+  @IsIP()
+  @IsOptional()
+  user_login_ip?: string;
+
+  @IsString()
+  @IsOptional()
+  user_agent?: string;
 }

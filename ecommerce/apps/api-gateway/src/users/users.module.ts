@@ -13,19 +13,16 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           port: 3000
         }
       },
-    ]),
-    ClientsModule.register([
       {
         name: 'NOTIFICATION_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: [process.env.QUEUE_URL],
+          urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
           queue: 'auth_queue',
           queueOptions: { durable: true},
         },
       },
     ]),
-
   ],
   controllers: [UsersController],
   providers: [UsersService]

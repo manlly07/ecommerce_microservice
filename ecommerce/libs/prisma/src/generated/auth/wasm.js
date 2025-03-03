@@ -17,12 +17,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.1.0
- * Query Engine version: 11f085a2012c0f4778414c8db2651556ee0ef959
+ * Prisma Client JS version: 6.3.1
+ * Query Engine version: acc0b9dd43eb689cbd20c9470515d719db10d0b0
  */
 Prisma.prismaVersion = {
-  client: "6.1.0",
-  engine: "11f085a2012c0f4778414c8db2651556ee0ef959"
+  client: "6.3.1",
+  engine: "acc0b9dd43eb689cbd20c9470515d719db10d0b0"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -175,6 +175,19 @@ exports.Prisma.Role_permissionScalarFieldEnum = {
   granted_at: 'granted_at'
 };
 
+exports.Prisma.UserAddressScalarFieldEnum = {
+  id: 'id',
+  user_name: 'user_name',
+  user_phone: 'user_phone',
+  user_id: 'user_id',
+  street: 'street',
+  district: 'district',
+  city: 'city',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -225,6 +238,16 @@ exports.Prisma.role_permissionOrderByRelevanceFieldEnum = {
   role_id: 'role_id',
   permission_id: 'permission_id'
 };
+
+exports.Prisma.UserAddressOrderByRelevanceFieldEnum = {
+  id: 'id',
+  user_name: 'user_name',
+  user_phone: 'user_phone',
+  user_id: 'user_id',
+  street: 'street',
+  district: 'district',
+  city: 'city'
+};
 exports.Gender = exports.$Enums.Gender = {
   MALE: 'MALE',
   FEMALE: 'FEMALE'
@@ -236,7 +259,8 @@ exports.Prisma.ModelName = {
   roles: 'roles',
   permissions: 'permissions',
   user_role: 'user_role',
-  role_permission: 'role_permission'
+  role_permission: 'role_permission',
+  UserAddress: 'UserAddress'
 };
 
 /**
