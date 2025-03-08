@@ -13,7 +13,8 @@ import { RedisModule } from '@nestjs-modules/ioredis';
       url: 'redis://localhost:6379',
       options: {
         keepAlive: 30000,
-        maxRetriesPerRequest: 3,
+        maxRetriesPerRequest: null,
+        enableAutoPipelining: true,
       },
     }),
   ],

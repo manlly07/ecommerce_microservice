@@ -32,7 +32,7 @@ export class SpusController {
   // get product by id from the spus service
   @Get(':spu_id')
   @MessagePattern('product.findAllSkuBySpu')
-  async getSpuById(@Payload() spu_id: string) {
+  async getSpuById(@Param("spu_id") spu_id: string) {
     return await this._spusService.getSpuById(spu_id);
   }
 

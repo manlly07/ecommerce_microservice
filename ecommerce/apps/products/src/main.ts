@@ -22,14 +22,14 @@ async function bootstrap() {
     },
   });
 
-  app.connectMicroservice({
-    transport: Transport.RMQ,
-    options: {
-      urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
-      queue: 'product_queue',
-      queueOptions: { durable: true },
-    },
-  });
+  // app.connectMicroservice({
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
+  //     queue: 'product_queue',
+  //     queueOptions: { durable: true },
+  //   },
+  // });
 
   // await app.listen();
   await app.startAllMicroservices();

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserAddressDTO } from 'y/dtos';
+import { UserAddress as UserAddressDTO } from 'y/dtos';
 import { UserAddressRepository } from 'y/repositories/user.address.repository';
 
 @Injectable()

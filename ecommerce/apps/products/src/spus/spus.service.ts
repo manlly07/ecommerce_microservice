@@ -82,45 +82,45 @@ export class SpusService {
     );
   }
 
-  //   async getSpuById(spu_id: string) {
-  //     const spu = await this._spusRepository.aggregate([
-  //       {
-  //         $match: {
-  //           product_id: spu_id,
-  //         },
-  //       },
-  //       {
-  //         $lookup: {
-  //           from: 'Skus',
-  //           localField: 'product_id',
-  //           foreignField: 'product_id',
-  //           as: 'sku_list',
-  //         },
-  //       },
-  //       {
-  //         $project: {
-  //           isDraft: 0,
-  //           isPublished: 0,
-  //           isDeleted: 0,
-  //           __v: 0,
-  //           createdAt: 0,
-  //           updatedAt: 0,
-  //           'sku.isDraft': 0,
-  //           'sku.isPublished': 0,
-  //           'sku.isDeleted': 0,
-  //           'sku.__v': 0,
-  //           'sku.createdAt': 0,
-  //           'sku.updatedAt': 0,
-  //           'sku_list.isDraft': 0,
-  //           'sku_list.isPublished': 0,
-  //           'sku_list.isDeleted': 0,
-  //           'sku_list.__v': 0,
-  //         },
-  //       },
-  //     ]);
-  //     console.log('FROM DB');
-  //     return spu;
-  //   }
+    // async getSpuById(spu_id: string) {
+    //   const spu = await this._spusRepository.aggregate([
+    //     {
+    //       $match: {
+    //         product_id: spu_id,
+    //       },
+    //     },
+    //     {
+    //       $lookup: {
+    //         from: 'Skus',
+    //         localField: 'product_id',
+    //         foreignField: 'product_id',
+    //         as: 'sku_list',
+    //       },
+    //     },
+    //     {
+    //       $project: {
+    //         isDraft: 0,
+    //         isPublished: 0,
+    //         isDeleted: 0,
+    //         __v: 0,
+    //         createdAt: 0,
+    //         updatedAt: 0,
+    //         'sku.isDraft': 0,
+    //         'sku.isPublished': 0,
+    //         'sku.isDeleted': 0,
+    //         'sku.__v': 0,
+    //         'sku.createdAt': 0,
+    //         'sku.updatedAt': 0,
+    //         'sku_list.isDraft': 0,
+    //         'sku_list.isPublished': 0,
+    //         'sku_list.isDeleted': 0,
+    //         'sku_list.__v': 0,
+    //       },
+    //     },
+    //   ]);
+    //   console.log('FROM DB::', new Date().getTime());
+    //   return spu;
+    // }
 
   async getSpuById(spu_id: string) {
     const keys = 'PRO_TICKET:ITEM:' + spu_id;
@@ -128,7 +128,7 @@ export class SpusService {
     const result = await this._redisService.get(keys);
     // 2. YES -> Hit cache
     if (result) {
-      console.log('FROM CACHE');
+      console.log('FROM CACHE::', new Date().getTime());
       return JSON.parse(result);
     }
 
@@ -170,7 +170,7 @@ export class SpusService {
         },
       },
     ]);
-    console.log('FROM DB');
+    console.log('FROM DB::', new Date().getTime());
     // 5. Save data to cache
     await this._redisService.set(keys, JSON.stringify(spu), 'EX', 60);
     return spu;
