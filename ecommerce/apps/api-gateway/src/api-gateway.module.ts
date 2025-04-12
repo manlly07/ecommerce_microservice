@@ -27,7 +27,7 @@ import { AddressModule } from './address/address.module';
         transport: Transport.TCP,
         options: {
           port: parseInt(process.env.CHECKOUT_PORT) || 3003,
-        }
+        },
       },
     ]),
 
@@ -39,7 +39,7 @@ import { AddressModule } from './address/address.module';
     ProductsModule,
     CartsModule,
     CheckoutModule,
-    AddressModule
+    AddressModule,
   ],
   controllers: [ApiGatewayController],
   providers: [ApiGatewayService],

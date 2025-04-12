@@ -20,6 +20,7 @@ export enum STATUS {
   CANCELLED = 'CANCELLED',
 }
 export class OrderDTO implements CartDTO {
+  order_id?: string;
   cart_id: string;
   user_id: string;
   shop_order_ids: ShopOrderDTO[];
@@ -33,11 +34,7 @@ export class OrderDTO implements CartDTO {
   user_address: UserAddress;
   // user_payment: any;
   user_payment: {
-    // card_number: string;
-    // card_holder: string;
-    // expired_date: string;
-    // cvv: string;
-    method_id: string;
+    id: string;
     method_name: string;
   };
   checkout_order?: any;

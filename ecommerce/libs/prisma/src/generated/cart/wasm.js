@@ -125,10 +125,13 @@ exports.Prisma.CartsScalarFieldEnum = {
 };
 
 exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
   product_id: 'product_id',
   cart_id: 'cart_id',
+  sku_id: 'sku_id',
   quantity: 'quantity',
   product_shop: 'product_shop',
+  isSelected: 'isSelected',
   isDeleted: 'isDeleted',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -144,9 +147,16 @@ exports.Prisma.CartsOrderByRelevanceFieldEnum = {
   user_id: 'user_id'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.CartItemOrderByRelevanceFieldEnum = {
+  id: 'id',
   product_id: 'product_id',
   cart_id: 'cart_id',
+  sku_id: 'sku_id',
   product_shop: 'product_shop'
 };
 

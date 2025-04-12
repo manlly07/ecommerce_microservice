@@ -44,15 +44,18 @@ model Order {
   // PaymentMethod    PaymentMethod @relation(fields: [payment_method], references: [id])
   //   ShippingAddress  UserAddress   @relation(fields: [shipping_address], references: [id])
   OrderDetails OrderDetail[]
-  Transactions Transactions[]
+  Transactions Transactions?
 }
 
 model OrderDetail {
-  id         String  @id @default(uuid()) // Primary key
-  order_id   String
-  product_id String
-  quantity   Int
-  price      Decimal @db.Decimal(10, 2)
+  id              String  @id @default(uuid()) // Primary key
+  order_id        String
+  product_id      String
+  product_name    String
+  product_variant String? @default("")
+  product_thumb   String?
+  quantity        Int
+  price           Decimal @db.Decimal(10, 2)
 
   Order Order @relation(fields: [order_id], references: [id])
 }
@@ -60,6 +63,7 @@ model OrderDetail {
 model PaymentMethod {
   id                 String   @id @default(uuid()) // Primary key
   method_name        String
+  method_thumbnail   String?
   method_description String?
   is_active          Boolean  @default(true)
   created_at         DateTime @default(now())
@@ -71,7 +75,7 @@ model PaymentMethod {
 
 model Transactions {
   id                String        @id @default(uuid()) // Primary key
-  order_id          String
+  order_id          String        @unique
   payment_method_id String
   amount            Decimal       @db.Decimal(10, 2)
   description       String?

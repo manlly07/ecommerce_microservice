@@ -1936,30 +1936,39 @@ export namespace Prisma {
   }
 
   export type CartItemMinAggregateOutputType = {
+    id: string | null
     product_id: string | null
     cart_id: string | null
+    sku_id: string | null
     quantity: number | null
     product_shop: string | null
+    isSelected: boolean | null
     isDeleted: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
 
   export type CartItemMaxAggregateOutputType = {
+    id: string | null
     product_id: string | null
     cart_id: string | null
+    sku_id: string | null
     quantity: number | null
     product_shop: string | null
+    isSelected: boolean | null
     isDeleted: boolean | null
     created_at: Date | null
     updated_at: Date | null
   }
 
   export type CartItemCountAggregateOutputType = {
+    id: number
     product_id: number
     cart_id: number
+    sku_id: number
     quantity: number
     product_shop: number
+    isSelected: number
     isDeleted: number
     created_at: number
     updated_at: number
@@ -1976,30 +1985,39 @@ export namespace Prisma {
   }
 
   export type CartItemMinAggregateInputType = {
+    id?: true
     product_id?: true
     cart_id?: true
+    sku_id?: true
     quantity?: true
     product_shop?: true
+    isSelected?: true
     isDeleted?: true
     created_at?: true
     updated_at?: true
   }
 
   export type CartItemMaxAggregateInputType = {
+    id?: true
     product_id?: true
     cart_id?: true
+    sku_id?: true
     quantity?: true
     product_shop?: true
+    isSelected?: true
     isDeleted?: true
     created_at?: true
     updated_at?: true
   }
 
   export type CartItemCountAggregateInputType = {
+    id?: true
     product_id?: true
     cart_id?: true
+    sku_id?: true
     quantity?: true
     product_shop?: true
+    isSelected?: true
     isDeleted?: true
     created_at?: true
     updated_at?: true
@@ -2093,10 +2111,13 @@ export namespace Prisma {
   }
 
   export type CartItemGroupByOutputType = {
+    id: string
     product_id: string
     cart_id: string
+    sku_id: string | null
     quantity: number
     product_shop: string
+    isSelected: boolean | null
     isDeleted: boolean
     created_at: Date
     updated_at: Date
@@ -2122,10 +2143,13 @@ export namespace Prisma {
 
 
   export type CartItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     product_id?: boolean
     cart_id?: boolean
+    sku_id?: boolean
     quantity?: boolean
     product_shop?: boolean
+    isSelected?: boolean
     isDeleted?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -2135,16 +2159,19 @@ export namespace Prisma {
 
 
   export type CartItemSelectScalar = {
+    id?: boolean
     product_id?: boolean
     cart_id?: boolean
+    sku_id?: boolean
     quantity?: boolean
     product_shop?: boolean
+    isSelected?: boolean
     isDeleted?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type CartItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"product_id" | "cart_id" | "quantity" | "product_shop" | "isDeleted" | "created_at" | "updated_at", ExtArgs["result"]["cartItem"]>
+  export type CartItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "product_id" | "cart_id" | "sku_id" | "quantity" | "product_shop" | "isSelected" | "isDeleted" | "created_at" | "updated_at", ExtArgs["result"]["cartItem"]>
   export type CartItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     carts?: boolean | CartsDefaultArgs<ExtArgs>
   }
@@ -2155,10 +2182,13 @@ export namespace Prisma {
       carts: Prisma.$CartsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
+      id: string
       product_id: string
       cart_id: string
+      sku_id: string | null
       quantity: number
       product_shop: string
+      isSelected: boolean | null
       isDeleted: boolean
       created_at: Date
       updated_at: Date
@@ -2245,8 +2275,8 @@ export namespace Prisma {
      * // Get first 10 CartItems
      * const cartItems = await prisma.cartItem.findMany({ take: 10 })
      * 
-     * // Only select the `product_id`
-     * const cartItemWithProduct_idOnly = await prisma.cartItem.findMany({ select: { product_id: true } })
+     * // Only select the `id`
+     * const cartItemWithIdOnly = await prisma.cartItem.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends CartItemFindManyArgs>(args?: SelectSubset<T, CartItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", ClientOptions>>
@@ -2532,10 +2562,13 @@ export namespace Prisma {
    * Fields of the CartItem model
    */ 
   interface CartItemFieldRefs {
+    readonly id: FieldRef<"CartItem", 'String'>
     readonly product_id: FieldRef<"CartItem", 'String'>
     readonly cart_id: FieldRef<"CartItem", 'String'>
+    readonly sku_id: FieldRef<"CartItem", 'String'>
     readonly quantity: FieldRef<"CartItem", 'Int'>
     readonly product_shop: FieldRef<"CartItem", 'String'>
+    readonly isSelected: FieldRef<"CartItem", 'Boolean'>
     readonly isDeleted: FieldRef<"CartItem", 'Boolean'>
     readonly created_at: FieldRef<"CartItem", 'DateTime'>
     readonly updated_at: FieldRef<"CartItem", 'DateTime'>
@@ -2925,10 +2958,13 @@ export namespace Prisma {
 
 
   export const CartItemScalarFieldEnum: {
+    id: 'id',
     product_id: 'product_id',
     cart_id: 'cart_id',
+    sku_id: 'sku_id',
     quantity: 'quantity',
     product_shop: 'product_shop',
+    isSelected: 'isSelected',
     isDeleted: 'isDeleted',
     created_at: 'created_at',
     updated_at: 'updated_at'
@@ -2953,9 +2989,19 @@ export namespace Prisma {
   export type CartsOrderByRelevanceFieldEnum = (typeof CartsOrderByRelevanceFieldEnum)[keyof typeof CartsOrderByRelevanceFieldEnum]
 
 
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
   export const CartItemOrderByRelevanceFieldEnum: {
+    id: 'id',
     product_id: 'product_id',
     cart_id: 'cart_id',
+    sku_id: 'sku_id',
     product_shop: 'product_shop'
   };
 
@@ -3060,10 +3106,13 @@ export namespace Prisma {
     AND?: CartItemWhereInput | CartItemWhereInput[]
     OR?: CartItemWhereInput[]
     NOT?: CartItemWhereInput | CartItemWhereInput[]
+    id?: StringFilter<"CartItem"> | string
     product_id?: StringFilter<"CartItem"> | string
     cart_id?: StringFilter<"CartItem"> | string
+    sku_id?: StringNullableFilter<"CartItem"> | string | null
     quantity?: IntFilter<"CartItem"> | number
     product_shop?: StringFilter<"CartItem"> | string
+    isSelected?: BoolNullableFilter<"CartItem"> | boolean | null
     isDeleted?: BoolFilter<"CartItem"> | boolean
     created_at?: DateTimeFilter<"CartItem"> | Date | string
     updated_at?: DateTimeFilter<"CartItem"> | Date | string
@@ -3071,10 +3120,13 @@ export namespace Prisma {
   }
 
   export type CartItemOrderByWithRelationInput = {
+    id?: SortOrder
     product_id?: SortOrder
     cart_id?: SortOrder
+    sku_id?: SortOrderInput | SortOrder
     quantity?: SortOrder
     product_shop?: SortOrder
+    isSelected?: SortOrderInput | SortOrder
     isDeleted?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -3083,25 +3135,30 @@ export namespace Prisma {
   }
 
   export type CartItemWhereUniqueInput = Prisma.AtLeast<{
-    product_id_cart_id?: CartItemProduct_idCart_idCompoundUniqueInput
+    id?: string
     AND?: CartItemWhereInput | CartItemWhereInput[]
     OR?: CartItemWhereInput[]
     NOT?: CartItemWhereInput | CartItemWhereInput[]
     product_id?: StringFilter<"CartItem"> | string
     cart_id?: StringFilter<"CartItem"> | string
+    sku_id?: StringNullableFilter<"CartItem"> | string | null
     quantity?: IntFilter<"CartItem"> | number
     product_shop?: StringFilter<"CartItem"> | string
+    isSelected?: BoolNullableFilter<"CartItem"> | boolean | null
     isDeleted?: BoolFilter<"CartItem"> | boolean
     created_at?: DateTimeFilter<"CartItem"> | Date | string
     updated_at?: DateTimeFilter<"CartItem"> | Date | string
     carts?: XOR<CartsScalarRelationFilter, CartsWhereInput>
-  }, "product_id_cart_id">
+  }, "id">
 
   export type CartItemOrderByWithAggregationInput = {
+    id?: SortOrder
     product_id?: SortOrder
     cart_id?: SortOrder
+    sku_id?: SortOrderInput | SortOrder
     quantity?: SortOrder
     product_shop?: SortOrder
+    isSelected?: SortOrderInput | SortOrder
     isDeleted?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -3116,10 +3173,13 @@ export namespace Prisma {
     AND?: CartItemScalarWhereWithAggregatesInput | CartItemScalarWhereWithAggregatesInput[]
     OR?: CartItemScalarWhereWithAggregatesInput[]
     NOT?: CartItemScalarWhereWithAggregatesInput | CartItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CartItem"> | string
     product_id?: StringWithAggregatesFilter<"CartItem"> | string
     cart_id?: StringWithAggregatesFilter<"CartItem"> | string
+    sku_id?: StringNullableWithAggregatesFilter<"CartItem"> | string | null
     quantity?: IntWithAggregatesFilter<"CartItem"> | number
     product_shop?: StringWithAggregatesFilter<"CartItem"> | string
+    isSelected?: BoolNullableWithAggregatesFilter<"CartItem"> | boolean | null
     isDeleted?: BoolWithAggregatesFilter<"CartItem"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"CartItem"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"CartItem"> | Date | string
@@ -3179,9 +3239,12 @@ export namespace Prisma {
   }
 
   export type CartItemCreateInput = {
+    id?: string
     product_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
@@ -3189,19 +3252,25 @@ export namespace Prisma {
   }
 
   export type CartItemUncheckedCreateInput = {
+    id?: string
     product_id: string
     cart_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type CartItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3209,39 +3278,51 @@ export namespace Prisma {
   }
 
   export type CartItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     cart_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CartItemCreateManyInput = {
+    id?: string
     product_id: string
     cart_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type CartItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CartItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
     cart_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3342,6 +3423,21 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -3351,6 +3447,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -3363,22 +3464,25 @@ export namespace Prisma {
     isNot?: CartsWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CartItemOrderByRelevanceInput = {
     fields: CartItemOrderByRelevanceFieldEnum | CartItemOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type CartItemProduct_idCart_idCompoundUniqueInput = {
-    product_id: string
-    cart_id: string
-  }
-
   export type CartItemCountOrderByAggregateInput = {
+    id?: SortOrder
     product_id?: SortOrder
     cart_id?: SortOrder
+    sku_id?: SortOrder
     quantity?: SortOrder
     product_shop?: SortOrder
+    isSelected?: SortOrder
     isDeleted?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -3389,20 +3493,26 @@ export namespace Prisma {
   }
 
   export type CartItemMaxOrderByAggregateInput = {
+    id?: SortOrder
     product_id?: SortOrder
     cart_id?: SortOrder
+    sku_id?: SortOrder
     quantity?: SortOrder
     product_shop?: SortOrder
+    isSelected?: SortOrder
     isDeleted?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
 
   export type CartItemMinOrderByAggregateInput = {
+    id?: SortOrder
     product_id?: SortOrder
     cart_id?: SortOrder
+    sku_id?: SortOrder
     quantity?: SortOrder
     product_shop?: SortOrder
+    isSelected?: SortOrder
     isDeleted?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -3410,6 +3520,24 @@ export namespace Prisma {
 
   export type CartItemSumOrderByAggregateInput = {
     quantity?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -3426,6 +3554,14 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -3492,12 +3628,20 @@ export namespace Prisma {
     connect?: CartsWhereUniqueInput
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -3581,9 +3725,58 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -3613,6 +3806,14 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -3622,18 +3823,24 @@ export namespace Prisma {
   }
 
   export type CartItemCreateWithoutCartsInput = {
+    id?: string
     product_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type CartItemUncheckedCreateWithoutCartsInput = {
+    id?: string
     product_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
@@ -3669,10 +3876,13 @@ export namespace Prisma {
     AND?: CartItemScalarWhereInput | CartItemScalarWhereInput[]
     OR?: CartItemScalarWhereInput[]
     NOT?: CartItemScalarWhereInput | CartItemScalarWhereInput[]
+    id?: StringFilter<"CartItem"> | string
     product_id?: StringFilter<"CartItem"> | string
     cart_id?: StringFilter<"CartItem"> | string
+    sku_id?: StringNullableFilter<"CartItem"> | string | null
     quantity?: IntFilter<"CartItem"> | number
     product_shop?: StringFilter<"CartItem"> | string
+    isSelected?: BoolNullableFilter<"CartItem"> | boolean | null
     isDeleted?: BoolFilter<"CartItem"> | boolean
     created_at?: DateTimeFilter<"CartItem"> | Date | string
     updated_at?: DateTimeFilter<"CartItem"> | Date | string
@@ -3723,36 +3933,48 @@ export namespace Prisma {
   }
 
   export type CartItemCreateManyCartsInput = {
+    id?: string
     product_id: string
+    sku_id?: string | null
     quantity?: number
     product_shop: string
+    isSelected?: boolean | null
     isDeleted?: boolean
     created_at?: Date | string
     updated_at?: Date | string
   }
 
   export type CartItemUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CartItemUncheckedUpdateWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CartItemUncheckedUpdateManyWithoutCartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
     product_id?: StringFieldUpdateOperationsInput | string
+    sku_id?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     product_shop?: StringFieldUpdateOperationsInput | string
+    isSelected?: NullableBoolFieldUpdateOperationsInput | boolean | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

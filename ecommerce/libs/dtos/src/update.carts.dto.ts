@@ -1,4 +1,11 @@
-import { IsString, IsNotEmpty, IsNumber, IsArray, ValidateNested, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsNumber,
+  IsArray,
+  ValidateNested,
+  IsOptional,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateCartItemDTO {
@@ -21,14 +28,10 @@ export class UpdateCartDTO {
   cart_id: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  action_type: number;
-
-  @IsNotEmpty() 
   @IsString()
-  product_id: string;
+  cart_item_id: string;
 
   @IsOptional()
   @IsNumber()
-  quantity?: number;
+  quantity: number;
 }

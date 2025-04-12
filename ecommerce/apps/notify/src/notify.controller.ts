@@ -9,13 +9,11 @@ export class NotifyController {
 
   @MessagePattern('noti.register')
   async sendEmailToken(payload: LoginResponseDto) {
-      console.log(payload);
-      return await this._notifyService.sendEmailToken(payload);
+    return await this._notifyService.sendEmailToken(payload);
   }
 
   @MessagePattern('noti.verify')
   async sendEmailVerify(payload: LoginResponseDto) {
-      console.log(payload);
-      return await this._notifyService.sendEmailPassword(payload);
+    return await this._notifyService.sendEmailPassword(payload);
   }
 }

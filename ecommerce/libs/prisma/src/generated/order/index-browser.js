@@ -136,6 +136,9 @@ exports.Prisma.OrderDetailScalarFieldEnum = {
   id: 'id',
   order_id: 'order_id',
   product_id: 'product_id',
+  product_name: 'product_name',
+  product_variant: 'product_variant',
+  product_thumb: 'product_thumb',
   quantity: 'quantity',
   price: 'price'
 };
@@ -143,6 +146,7 @@ exports.Prisma.OrderDetailScalarFieldEnum = {
 exports.Prisma.PaymentMethodScalarFieldEnum = {
   id: 'id',
   method_name: 'method_name',
+  method_thumbnail: 'method_thumbnail',
   method_description: 'method_description',
   is_active: 'is_active',
   created_at: 'created_at',
@@ -173,20 +177,24 @@ exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   shipping_address: 'shipping_address'
 };
 
-exports.Prisma.OrderDetailOrderByRelevanceFieldEnum = {
-  id: 'id',
-  order_id: 'order_id',
-  product_id: 'product_id'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
 
+exports.Prisma.OrderDetailOrderByRelevanceFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  product_id: 'product_id',
+  product_name: 'product_name',
+  product_variant: 'product_variant',
+  product_thumb: 'product_thumb'
+};
+
 exports.Prisma.PaymentMethodOrderByRelevanceFieldEnum = {
   id: 'id',
   method_name: 'method_name',
+  method_thumbnail: 'method_thumbnail',
   method_description: 'method_description'
 };
 

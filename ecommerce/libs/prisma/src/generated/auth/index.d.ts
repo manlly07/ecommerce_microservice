@@ -7364,6 +7364,8 @@ export namespace Prisma {
     street: string | null
     district: string | null
     city: string | null
+    type: string | null
+    isDefault: boolean | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -7377,6 +7379,8 @@ export namespace Prisma {
     street: string | null
     district: string | null
     city: string | null
+    type: string | null
+    isDefault: boolean | null
     created_at: Date | null
     updated_at: Date | null
     is_deleted: boolean | null
@@ -7390,6 +7394,8 @@ export namespace Prisma {
     street: number
     district: number
     city: number
+    type: number
+    isDefault: number
     created_at: number
     updated_at: number
     is_deleted: number
@@ -7405,6 +7411,8 @@ export namespace Prisma {
     street?: true
     district?: true
     city?: true
+    type?: true
+    isDefault?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -7418,6 +7426,8 @@ export namespace Prisma {
     street?: true
     district?: true
     city?: true
+    type?: true
+    isDefault?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -7431,6 +7441,8 @@ export namespace Prisma {
     street?: true
     district?: true
     city?: true
+    type?: true
+    isDefault?: true
     created_at?: true
     updated_at?: true
     is_deleted?: true
@@ -7517,6 +7529,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault: boolean
     created_at: Date
     updated_at: Date
     is_deleted: boolean
@@ -7547,6 +7561,8 @@ export namespace Prisma {
     street?: boolean
     district?: boolean
     city?: boolean
+    type?: boolean
+    isDefault?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
@@ -7563,12 +7579,14 @@ export namespace Prisma {
     street?: boolean
     district?: boolean
     city?: boolean
+    type?: boolean
+    isDefault?: boolean
     created_at?: boolean
     updated_at?: boolean
     is_deleted?: boolean
   }
 
-  export type UserAddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_name" | "user_phone" | "user_id" | "street" | "district" | "city" | "created_at" | "updated_at" | "is_deleted", ExtArgs["result"]["userAddress"]>
+  export type UserAddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_name" | "user_phone" | "user_id" | "street" | "district" | "city" | "type" | "isDefault" | "created_at" | "updated_at" | "is_deleted", ExtArgs["result"]["userAddress"]>
   export type UserAddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | usersDefaultArgs<ExtArgs>
   }
@@ -7586,6 +7604,8 @@ export namespace Prisma {
       street: string
       district: string
       city: string
+      type: string
+      isDefault: boolean
       created_at: Date
       updated_at: Date
       is_deleted: boolean
@@ -7966,6 +7986,8 @@ export namespace Prisma {
     readonly street: FieldRef<"UserAddress", 'String'>
     readonly district: FieldRef<"UserAddress", 'String'>
     readonly city: FieldRef<"UserAddress", 'String'>
+    readonly type: FieldRef<"UserAddress", 'String'>
+    readonly isDefault: FieldRef<"UserAddress", 'Boolean'>
     readonly created_at: FieldRef<"UserAddress", 'DateTime'>
     readonly updated_at: FieldRef<"UserAddress", 'DateTime'>
     readonly is_deleted: FieldRef<"UserAddress", 'Boolean'>
@@ -8428,6 +8450,8 @@ export namespace Prisma {
     street: 'street',
     district: 'district',
     city: 'city',
+    type: 'type',
+    isDefault: 'isDefault',
     created_at: 'created_at',
     updated_at: 'updated_at',
     is_deleted: 'is_deleted'
@@ -8518,7 +8542,8 @@ export namespace Prisma {
     user_id: 'user_id',
     street: 'street',
     district: 'district',
-    city: 'city'
+    city: 'city',
+    type: 'type'
   };
 
   export type UserAddressOrderByRelevanceFieldEnum = (typeof UserAddressOrderByRelevanceFieldEnum)[keyof typeof UserAddressOrderByRelevanceFieldEnum]
@@ -8981,6 +9006,8 @@ export namespace Prisma {
     street?: StringFilter<"UserAddress"> | string
     district?: StringFilter<"UserAddress"> | string
     city?: StringFilter<"UserAddress"> | string
+    type?: StringFilter<"UserAddress"> | string
+    isDefault?: BoolFilter<"UserAddress"> | boolean
     created_at?: DateTimeFilter<"UserAddress"> | Date | string
     updated_at?: DateTimeFilter<"UserAddress"> | Date | string
     is_deleted?: BoolFilter<"UserAddress"> | boolean
@@ -8995,6 +9022,8 @@ export namespace Prisma {
     street?: SortOrder
     district?: SortOrder
     city?: SortOrder
+    type?: SortOrder
+    isDefault?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -9013,6 +9042,8 @@ export namespace Prisma {
     street?: StringFilter<"UserAddress"> | string
     district?: StringFilter<"UserAddress"> | string
     city?: StringFilter<"UserAddress"> | string
+    type?: StringFilter<"UserAddress"> | string
+    isDefault?: BoolFilter<"UserAddress"> | boolean
     created_at?: DateTimeFilter<"UserAddress"> | Date | string
     updated_at?: DateTimeFilter<"UserAddress"> | Date | string
     is_deleted?: BoolFilter<"UserAddress"> | boolean
@@ -9027,6 +9058,8 @@ export namespace Prisma {
     street?: SortOrder
     district?: SortOrder
     city?: SortOrder
+    type?: SortOrder
+    isDefault?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -9046,6 +9079,8 @@ export namespace Prisma {
     street?: StringWithAggregatesFilter<"UserAddress"> | string
     district?: StringWithAggregatesFilter<"UserAddress"> | string
     city?: StringWithAggregatesFilter<"UserAddress"> | string
+    type?: StringWithAggregatesFilter<"UserAddress"> | string
+    isDefault?: BoolWithAggregatesFilter<"UserAddress"> | boolean
     created_at?: DateTimeWithAggregatesFilter<"UserAddress"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"UserAddress"> | Date | string
     is_deleted?: BoolWithAggregatesFilter<"UserAddress"> | boolean
@@ -9483,6 +9518,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -9497,6 +9534,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -9509,6 +9548,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -9523,6 +9564,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -9536,6 +9579,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -9548,6 +9593,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -9561,6 +9608,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -10006,6 +10055,8 @@ export namespace Prisma {
     street?: SortOrder
     district?: SortOrder
     city?: SortOrder
+    type?: SortOrder
+    isDefault?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -10019,6 +10070,8 @@ export namespace Prisma {
     street?: SortOrder
     district?: SortOrder
     city?: SortOrder
+    type?: SortOrder
+    isDefault?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -10032,6 +10085,8 @@ export namespace Prisma {
     street?: SortOrder
     district?: SortOrder
     city?: SortOrder
+    type?: SortOrder
+    isDefault?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     is_deleted?: SortOrder
@@ -10628,6 +10683,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -10640,6 +10697,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -10740,6 +10799,8 @@ export namespace Prisma {
     street?: StringFilter<"UserAddress"> | string
     district?: StringFilter<"UserAddress"> | string
     city?: StringFilter<"UserAddress"> | string
+    type?: StringFilter<"UserAddress"> | string
+    isDefault?: BoolFilter<"UserAddress"> | boolean
     created_at?: DateTimeFilter<"UserAddress"> | Date | string
     updated_at?: DateTimeFilter<"UserAddress"> | Date | string
     is_deleted?: BoolFilter<"UserAddress"> | boolean
@@ -11295,6 +11356,8 @@ export namespace Prisma {
     street: string
     district: string
     city: string
+    type: string
+    isDefault?: boolean
     created_at?: Date | string
     updated_at?: Date | string
     is_deleted?: boolean
@@ -11361,6 +11424,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -11373,6 +11438,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean
@@ -11385,6 +11452,8 @@ export namespace Prisma {
     street?: StringFieldUpdateOperationsInput | string
     district?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     is_deleted?: BoolFieldUpdateOperationsInput | boolean

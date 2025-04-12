@@ -17,7 +17,6 @@ export class ProductsController {
 
   @Post()
   create(@Body() createProductDto: SpuDTO) {
-    console.log(createProductDto);
     return this.productsService.create(createProductDto);
   }
   @Get()
@@ -26,7 +25,6 @@ export class ProductsController {
   }
   @Get(':id')
   findAllSkuBySpu(@Param('id') id: string) {
-    console.log('API GATEWAY');
     return this.productsService.findAllSkuBySpu(id);
   }
   @Get(':id')

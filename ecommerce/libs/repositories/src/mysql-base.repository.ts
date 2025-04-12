@@ -1,13 +1,14 @@
 import { PrismaClient } from 'y/prisma/generated/order';
 import { IBaseRepository } from './interfaces/base-repository.interface';
-export class MySQLBaseRepository<T, FindManyArgs, FindUniqueArgs> implements IBaseRepository<T, FindUniqueArgs, FindManyArgs> {
+export class MySQLBaseRepository<T, FindManyArgs, FindUniqueArgs>
+  implements IBaseRepository<T, FindUniqueArgs, FindManyArgs>
+{
   constructor(
     protected readonly prisma: PrismaClient,
     protected readonly modelDelegate: any, // Delegate đại diện cho model trong Prisma
   ) {}
 
-
-  async findAll(args?: FindManyArgs): Promise<T[]> {
+  async findAll(args?: any): Promise<T[]> {
     return this.modelDelegate.findMany(args) as Promise<T[]>;
   }
 

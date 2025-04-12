@@ -6,7 +6,7 @@
 /docker/data/*
 /docker/grafana_data/*
 /docker/prometheus/prometheus_data/*
-
+/libs/prisma/src/generated/*
 # Logs
 logs
 *.log

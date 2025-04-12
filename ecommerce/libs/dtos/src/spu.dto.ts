@@ -1,5 +1,15 @@
-import { IsString, IsOptional, IsArray, IsNumber, IsObject, Min, IsNotEmpty, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsOptional,
+  IsArray,
+  IsNumber,
+  IsObject,
+  Min,
+  IsNotEmpty,
+  ValidateNested,
+} from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { Types } from 'mongoose';
 
 class Variation {
   @IsNotEmpty()
@@ -51,7 +61,9 @@ export class SpuDTO {
 
   @IsNotEmpty()
   @IsArray()
-  product_category: Array<string>
+  @IsString({ each: true })
+  @Transform(({ value }) => value.map((id: string) => new Types.ObjectId(id)))
+  product_category: Types.ObjectId[];
 
   @IsNotEmpty()
   @IsString()

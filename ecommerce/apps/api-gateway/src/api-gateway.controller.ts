@@ -14,7 +14,6 @@ export class ApiGatewayController {
   async getPaymentById(@Param('id') id: string) {
     return await this.apiGatewayService.getPaymentById(id);
   }
-
   @Post('payment')
   async createPayment(@Body() data: any) {
     return await this.apiGatewayService.createPayment(data);

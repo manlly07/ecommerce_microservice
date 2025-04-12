@@ -7,8 +7,8 @@ import {
   UpdateCartDTO,
   UpdateCartItemDTO,
 } from 'y/dtos';
-import { CartItemRepository } from 'y/repositories/cart.item.repository';
-import { CartsRepository } from 'y/repositories/carts.repository';
+import { CartItemRepository } from 'libs/repositories/cart/cart.item.repository';
+import { CartsRepository } from 'libs/repositories/cart/carts.repository';
 
 @Injectable()
 export class CartsService {
@@ -22,7 +22,6 @@ export class CartsService {
   }
 
   async getCartByUser(user_id: string) {
-    console.log(user_id);
     let cart = (await this._cartsRepository.findOne({
       where: { user_id },
       include: {
@@ -30,9 +29,12 @@ export class CartsService {
           // Chắc chắn rằng Prisma nhận diện quan hệ
           where: { isDeleted: false },
           select: {
+            id: true,
+            sku_id: true,
             product_shop: true,
             product_id: true,
             quantity: true,
+            isSelected: true,
           },
         },
       },
@@ -65,6 +67,9 @@ export class CartsService {
         price: item.price,
         shop_id: item.product_shop,
         product_id: item.product_id,
+        sku_id: item.sku_id,
+        isSelected: item.isSelected,
+        id: item.id,
       });
     }
 
@@ -77,8 +82,19 @@ export class CartsService {
     return response;
   }
 
+  async selected(data: { id: string; isSelected: boolean }) {
+    return await this._cartItemRepository.updateItem(
+      {
+        id: data.id,
+      },
+      {
+        isSelected: data.isSelected,
+      },
+    );
+  }
+
   async updateCart(data: UpdateCartDTO) {
-    const { user_id, cart_id, action_type, product_id, quantity } = data;
+    const { user_id, cart_id, quantity, cart_item_id } = data;
     const cart = await this.getCartByUser(user_id);
     if (!cart)
       throw new RpcException({
@@ -87,109 +103,68 @@ export class CartsService {
       });
     if (cart.cart_id !== cart_id) throw new RpcException('Cart not match!');
 
-    switch (action_type) {
-      case 0: // Cập nhật số lượng
-        await this.updateQuantities(cart_id, product_id, quantity);
-        cart.shop_order_ids = cart.shop_order_ids.map((shopOrder) => {
-          shopOrder.item_products = shopOrder.item_products.map((item) => {
-            if (item.product_id === product_id) {
-              item.quantity = quantity;
-            }
-            return item;
-          });
-          return shopOrder;
-        });
-        break;
+    if (quantity === 0) return await this.removeItem(cart_item_id);
 
-      case 1: // Xóa sản phẩm khỏi giỏ hàng
-        this.removeItem(cart_id, product_id);
-        cart.shop_order_ids = cart.shop_order_ids.map((shopOrder) => {
-          shopOrder.item_products = shopOrder.item_products.filter(
-            (item) => item.product_id !== product_id,
-          );
-          return shopOrder;
-        });
-        break;
-
-      default:
-        throw new RpcException('Invalid action type!');
-    }
-
-    return cart;
+    return await this.updateQuantities(cart_item_id, quantity);
   }
-  async removeItem(cart_id: string, product_id: string) {
-    const cartItem = await this._cartItemRepository.findByKey(
-      cart_id,
-      product_id,
-    );
-    if (!cartItem)
-      throw new RpcException(`Item with ID ${product_id} not found!`);
+  async removeItem(id: string) {
+    const cartItem = await this._cartItemRepository.findByKey(id);
+    if (!cartItem) throw new RpcException(`Item with ID ${id} not found!`);
 
     const state = await this._cartItemRepository.updateItem(
-      { product_id_cart_id: { cart_id, product_id } },
+      { id: id },
       { isDeleted: true },
     );
 
-    if (!state)
-      throw new RpcException(`Failed to delete product ID ${product_id}`);
+    if (!state) throw new RpcException(`Failed to delete product ID ${id}`);
     return state;
   }
-  async updateQuantities(
-    cart_id: string,
-    product_id: string,
-    quantity: number,
-  ) {
-    // Xóa nếu số lượng = 0
-    if (quantity <= 0) {
-      return this.removeItem(cart_id, product_id);
-    }
+  async updateQuantities(cart_item_id: string, quantity: number) {
     // Kiểm tra xem sản phẩm có tồn tại không
-    const cartItem = await this._cartItemRepository.findByKey(
-      cart_id,
-      product_id,
-    );
+    const cartItem = await this._cartItemRepository.findByKey(cart_item_id);
     if (!cartItem)
-      throw new RpcException(`Item with ID ${product_id} not found!`);
+      throw new RpcException(`Item with ID ${cart_item_id} not found!`);
 
     // Cập nhật số lượng
     const state = await this._cartItemRepository.updateItem(
-      { product_id_cart_id: { cart_id, product_id } },
+      { id: cart_item_id },
       { quantity },
     );
 
     if (!state)
       throw new RpcException(
-        `Failed to update quantity for product ID ${product_id}`,
+        `Failed to update quantity for product ID ${cart_item_id}`,
       );
     return state;
   }
   async addToCart(data: CartCreateDTO) {
-    const { user_id, product_id, quantity, product_shop } = data;
+    const { user_id, product_id, quantity, product_shop, sku_id } = data;
     // Lấy giỏ hàng của user
     const cart = await this.getCartByUser(user_id);
-    console.log(cart);
-    const cartItems = await this._cartItemRepository.findByKey(
-      cart.cart_id,
-      product_id,
-    );
-    if (!cartItems) {
+    const cartItems = await this._cartItemRepository.findAll({
+      where: {
+        product_id: product_id,
+        sku_id: sku_id,
+        product_shop: product_shop,
+        isDeleted: false,
+      },
+    });
+    if (cartItems.length === 0) {
       // Tạo mới cart item
       return await this._cartItemRepository.create({
         cart_id: cart.cart_id,
         product_id,
+        sku_id: sku_id,
         quantity,
         product_shop,
         isDeleted: false,
       });
     }
 
-    if (cartItems.isDeleted) {
+    if (cartItems[0].isDeleted) {
       return await this._cartItemRepository.updateItem(
         {
-          product_id_cart_id: {
-            cart_id: cart.cart_id,
-            product_id,
-          },
+          id: cartItems[0].id,
         },
         {
           quantity,
@@ -200,13 +175,10 @@ export class CartsService {
 
     return await this._cartItemRepository.updateItem(
       {
-        product_id_cart_id: {
-          cart_id: cart.cart_id,
-          product_id,
-        },
+        id: cartItems[0].id,
       },
       {
-        quantity: cartItems.quantity + quantity,
+        quantity: cartItems[0].quantity + quantity,
       },
     );
   }

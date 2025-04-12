@@ -7,9 +7,12 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../generated/auth"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  // binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
+// npx prisma generate --schema=./cart_schema.prisma
+// npx prisma migrate dev --schema=./cart_schema.prisma
 datasource db {
   provider = "mysql"
   url      = env("AUTH_DATABASE_URL")
@@ -108,6 +111,8 @@ model UserAddress {
   street     String
   district   String
   city       String
+  type       String
+  isDefault  Boolean  @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   is_deleted Boolean  @default(false)

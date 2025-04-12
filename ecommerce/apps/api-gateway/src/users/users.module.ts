@@ -10,8 +10,8 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'USERS_SERVICE',
         transport: Transport.TCP,
         options: {
-          port: 3000
-        }
+          port: 5000,
+        },
       },
       {
         name: 'NOTIFICATION_SERVICE',
@@ -19,12 +19,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         options: {
           urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
           queue: 'auth_queue',
-          queueOptions: { durable: true},
+          queueOptions: { durable: true },
         },
       },
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService],
 })
 export class UsersModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { PermissionsRepository } from 'libs/repositories/users/permissions.repository';
 import { PermissionsDTO } from 'y/dtos';
-import { PermissionsRepository } from 'y/repositories/permissions.repository';
 
 @Injectable()
 export class PermissionsService {

@@ -22,4 +22,13 @@ export class CartsController {
     return this.cartsService.updateCart(data);
   }
 
+  @MessagePattern('cart.delete')
+  deleteCart(@Payload() id: string) {
+    return this.cartsService.removeItem(id);
+  }
+
+  @MessagePattern('cart.selected')
+  selectedCart(@Payload() data: { id: string; isSelected: boolean }) {
+    return this.cartsService.selected(data);
+  }
 }

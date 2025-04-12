@@ -10,6 +10,11 @@ export class SkusController {
     return this._skusService.findAll();
   }
 
+  @Get('set')
+  async set() {
+    return this._skusService.updateProductIds();
+  }
+
   @Get(':spu_id')
   async getSkuBySpuId(@Param('spu_id') spu_id: string) {
     return this._skusService.allSkuBySpuId({ product_id: spu_id });

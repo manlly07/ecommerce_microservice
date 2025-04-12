@@ -4,14 +4,14 @@ import { AddressController } from './address.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
-    imports: [
+  imports: [
     ClientsModule.register([
       {
         name: 'USERS_SERVICE',
         transport: Transport.TCP,
         options: {
-          port: 3000
-        }
+          port: 5000,
+        },
       },
     ]),
   ],

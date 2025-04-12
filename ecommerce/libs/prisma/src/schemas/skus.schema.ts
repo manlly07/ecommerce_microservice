@@ -44,4 +44,3 @@ export class Sku extends Document {
 export const SkuSchema = SchemaFactory.createForClass(Sku);
 
 export const SkuModel = model<Sku>('Skus', SkuSchema);
-

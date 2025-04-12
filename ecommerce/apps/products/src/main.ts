@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
 import { RpcExceptionsCustom } from 'y/configs';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const PORT = process.env.PRODUCT_PORT || 3001;
@@ -13,7 +14,7 @@ async function bootstrap() {
   //   },
   // });
   const app = await NestFactory.create(AppModule);
-  app.useGlobalFilters(new RpcExceptionsCustom());
+  // app.useGlobalFilters(new RpcExceptionsCustom());
 
   app.connectMicroservice({
     transport: Transport.TCP,
@@ -22,16 +23,23 @@ async function bootstrap() {
     },
   });
 
-  // app.connectMicroservice({
-  //   transport: Transport.RMQ,
-  //   options: {
-  //     urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
-  //     queue: 'product_queue',
-  //     queueOptions: { durable: true },
-  //   },
-  // });
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: [process.env.QUEUE_URL || 'amqp://localhost:5672'],
+      queue: 'product_queue',
+      queueOptions: { durable: true },
+    },
+  });
 
   // await app.listen();
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true,
+  //     transform: true,
+  //   }),
+  // );
+  app.enableCors();
   await app.startAllMicroservices();
   await app.listen(3008);
   console.log(`Product service is running on: ${PORT}`);

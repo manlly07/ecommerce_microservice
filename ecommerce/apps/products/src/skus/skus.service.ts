@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Param } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { SkuRepository } from 'y/repositories/sku.repository';
+import { SkuRepository } from 'libs/repositories/products/sku.repository';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class SkusService {
@@ -19,10 +20,24 @@ export class SkusService {
   }
 
   async oneSku({ sku_id }) {
-    // read db
-    const sku = await this._skusRepository.findOne({ sku_id: sku_id });
-
+    const sku = (await this._skusRepository.finOneAndPopulate({
+      sku_id: sku_id,
+    })) as any;
     return sku;
+  }
+
+  async oneSkuV1({ sku_id, quantity }) {
+    const sku = (await this._skusRepository.finOneAndPopulateV1({
+      sku_id: sku_id,
+      quantity,
+    })) as any;
+    return sku;
+  }
+
+  async updateProductIds() {
+    // Lấy tất cả các SKU
+
+    console.log('Đã cập nhật thành công product_id cho tất cả các SKU');
   }
 
   async allSkuBySpuId({ product_id }) {

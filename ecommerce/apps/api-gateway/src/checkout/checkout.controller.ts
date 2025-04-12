@@ -12,7 +12,7 @@ export class CheckoutController {
       cart_id: string;
       shop_order_ids: [];
       user_address: UserAddress;
-      user_payment: { method_id: string; method_name: string };
+      user_payment: { id: string; method_name: string };
     },
     @Req() req: Request,
   ) {

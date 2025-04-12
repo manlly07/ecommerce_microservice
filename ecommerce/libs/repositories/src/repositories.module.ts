@@ -1,61 +1,30 @@
 import { Module } from '@nestjs/common';
-import { UserRepository } from './user.repository';
 import { DatabaseProvider, PrismaService } from 'y/prisma';
-import { KeysRepository } from './keys.repository';
-import { RolesRepository } from './roles.repository';
-import { PermissionsRepository } from './permissions.repository';
-import { UserRoleRepository } from './user_role.repository';
-import { RolePermissionRepository } from './rolepermission.repository';
-import { SpuRepository } from './spu.repository';
-import { SkuRepository } from './sku.repository';
+import { SpuRepository } from '../products/spu.repository';
+import { SkuRepository } from '../products/sku.repository';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Spu, SpuSchema } from 'y/prisma/schemas/spus.schema';
 import { Sku, SkuSchema } from 'y/prisma/schemas/skus.schema';
-import { CartsRepository } from './carts.repository';
-import { CartItemRepository } from './cart.item.repository';
-import { OrderRepository } from './order.repository';
-import { OrderDetailRepository } from './order.item.repository';
-import { UserAddressRepository } from './user.address.repository';
-import { PaymentMethodRepository } from './payment.repository';
+import { OrderRepository } from '../orders/order.repository';
+import { OrderDetailRepository } from '../orders/order.item.repository';
+import { PaymentMethodRepository } from '../orders/payment.repository';
+import { Category, CategorySchema } from 'y/prisma/schemas/category.schema';
+import { UsersModule } from './users.module';
+import { CartsModule } from './carts.module';
+import { ProductsModule } from './products.module';
+import { OdersModule } from './oders.module';
 
-const repository = [
-  UserRepository, 
-    KeysRepository, 
-    RolesRepository, 
-    PermissionsRepository, 
-    UserRoleRepository,
-    RolePermissionRepository,
-
-    SpuRepository,
-    SkuRepository,
-
-    CartsRepository,
-    CartItemRepository,
-
-    OrderRepository,
-    OrderDetailRepository,
-    UserAddressRepository,
-    PaymentMethodRepository
-]
+const modules = [UsersModule, CartsModule, ProductsModule, OdersModule];
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
-      envFilePath: '.env', 
+      isGlobal: true,
+      envFilePath: '.env',
     }),
-    DatabaseProvider,
-    MongooseModule.forFeature([
-      { name: Spu.name, schema: SpuSchema },
-      { name: Sku.name, schema: SkuSchema }
-    ])
+    ...modules,
   ],
-  providers: [
-    PrismaService,
-
-    ...repository,
-
-  ],
-  exports: [...repository],
+  providers: [],
+  exports: [...modules],
 })
 export class RepositoriesModule {}

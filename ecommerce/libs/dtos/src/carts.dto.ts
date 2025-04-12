@@ -1,4 +1,10 @@
-import { IsString, IsNumber, Min, IsNotEmpty, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  Min,
+  IsNotEmpty,
+  IsOptional,
+} from 'class-validator';
 
 export class CartCreateDTO {
   @IsOptional()
@@ -8,6 +14,10 @@ export class CartCreateDTO {
   @IsNotEmpty()
   @IsString()
   product_id: string;
+
+  @IsOptional()
+  @IsString()
+  sku_id: string;
 
   @IsNotEmpty()
   @IsNumber()
@@ -20,10 +30,16 @@ export class CartCreateDTO {
 }
 
 export interface ItemProductDTO {
+  id: number | string;
   quantity: number;
   price: number;
   shop_id: string;
   product_id: string;
+  product_name?: string;
+  product_thumb?: string;
+  sku_id: any;
+  product_options?: string;
+  isSelected: boolean;
 }
 
 export interface ShopDiscountDTO {

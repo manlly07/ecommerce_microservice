@@ -17,7 +17,6 @@ export class MetricsMiddleware implements NestMiddleware {
   use = (req: any, res: any, next: () => void): void => {
     // Đảm bảo requestCounter được khởi tạo
     if (!this.requestCounter) {
-      console.error('requestCounter is undefined');
       next();
       return;
     }

@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IsString } from 'class-validator';
 import { KeysDTO } from 'y/dtos';
-import { KeysRepository } from 'y/repositories/keys.repository';
 import { PartialType } from '@nestjs/mapped-types';
-
+import { KeysRepository } from 'libs/repositories/users/keys.repository';
 
 export class BaseParamsDTO {
   @IsString()
@@ -17,7 +16,6 @@ export class BaseParamsDTO {
 }
 
 export class ParamsDTO extends PartialType(BaseParamsDTO) {}
-
 
 @Injectable()
 export class KeysService {
@@ -39,19 +37,19 @@ export class KeysService {
         gte: new Date(),
       },
     };
-  
+
     if (params.user_refresh_token) {
       where.user_refresh_token = params.user_refresh_token;
     }
-  
+
     if (params.user_public_key) {
       where.user_public_key = params.user_public_key;
     }
-  
+
     if (params.user_private_key) {
       where.user_private_key = params.user_private_key;
     }
-  
+
     // Thực hiện truy vấn
     return await this._keysRepository.findOne({
       where,

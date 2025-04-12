@@ -17,10 +17,9 @@ import { SpuDTO, SpuQueryDTO } from 'y/dtos';
 export class SpusController {
   constructor(private _spusService: SpusService) {}
   // get all products from the spus service
-  // @Get()
-  @MessagePattern('product.findAll')
-  async findAll(@Payload() dto: SpuQueryDTO) {
-    console.log(dto);
+  // @MessagePattern('product.findAll')
+  @Get()
+  async findAll(@Query() dto: SpuQueryDTO) {
     return await this._spusService.findAll(dto);
   }
 
@@ -32,13 +31,16 @@ export class SpusController {
   // get product by id from the spus service
   @Get(':spu_id')
   @MessagePattern('product.findAllSkuBySpu')
-  async getSpuById(@Param("spu_id") spu_id: string) {
+  async getSpuById(@Param('spu_id') spu_id: string) {
     return await this._spusService.getSpuById(spu_id);
   }
 
   @MessagePattern('product.getSkuById')
-  async getSkuById(@Payload() sku_id: string) {
-    return await this._spusService.getSkuById(sku_id);
+  async getSkuById(@Payload() dto: { sku_id: string; product_id: string }) {
+    if (dto.sku_id) return await this._spusService.getSkuById(dto.sku_id);
+    else {
+      return await this._spusService.getSpuById(dto.product_id);
+    }
   }
 
   // create a new product in the spus service
@@ -49,17 +51,22 @@ export class SpusController {
   }
 
   // get published product by shop from the spus service
-  @Get('published/all')
-  async findAllPublishForShop(@Req() req: Request) {
-    const product_shop = req.params['x-client-id'];
-    return await this._spusService.findAllPublishForShop(product_shop);
-  }
+  // @Get('published/all')
+  // async findAllPublishForShop(@Req() req: Request) {
+  //   const product_shop = req.params['x-client-id'];
+  //   return await this._spusService.findAllPublishForShop(product_shop);
+  // }
 
   // publish a product by shop from the spus service
   // @Post('publish/:spu_id')
   @MessagePattern('product.publishProductByShop')
   async publishProductByShop(@Payload() spu_id: string) {
     return await this._spusService.publishProductByShop(spu_id);
+  }
+
+  @Get('published/all')
+  async publishAllProduct() {
+    return await this._spusService.publishAllProduct();
   }
 
   // unpublish a product by shop from the spus service
@@ -81,7 +88,13 @@ export class SpusController {
 
   @MessagePattern('product.stock.reduce')
   async reduceStockQuantity(@Payload() shop_order_ids: any[]) {
+    console.log(shop_order_ids);
     return await this._spusService.reduceStockQuantity(shop_order_ids);
+  }
+
+  @MessagePattern('product.stock.restock')
+  async restockStockQuantity(@Payload() shop_order_ids: any[]) {
+    return await this._spusService.restock(shop_order_ids);
   }
 
   // @GrpcMethod('ProductService', 'CheckProductExists')

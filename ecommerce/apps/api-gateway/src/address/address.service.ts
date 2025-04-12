@@ -21,7 +21,6 @@ export class AddressService {
   }
 
   async delete(id: string) {
-    console.log(id);
     return await firstValueFrom(this._usersService.send('address.delete', id));
   }
 

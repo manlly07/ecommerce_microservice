@@ -13,14 +13,48 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     console.log('Connecting to Prisma Clients...');
-    await this.OrderClient.$connect();
-    await this.AuthClient.$connect();
-    await this.CartClient.$connect();
+    try {
+      await this.OrderClient.$connect();
+      console.log('OrderClient connected');
+    } catch (error) {
+      console.error('Error connecting to OrderClient:', error);
+    }
+
+    try {
+      await this.AuthClient.$connect();
+      console.log('AuthClient connected');
+    } catch (error) {
+      console.error('Error connecting to AuthClient:', error);
+    }
+
+    try {
+      await this.CartClient.$connect();
+      console.log('CartClient connected');
+    } catch (error) {
+      console.error('Error connecting to CartClient:', error);
+    }
   }
 
   async onModuleDestroy() {
-    await this.OrderClient.$disconnect();
-    await this.AuthClient.$disconnect();
-    await this.CartClient.$disconnect();
+    try {
+      await this.OrderClient.$disconnect();
+      console.log('OrderClient disconnected');
+    } catch (error) {
+      console.error('Error disconnecting from OrderClient:', error);
+    }
+
+    try {
+      await this.AuthClient.$disconnect();
+      console.log('AuthClient disconnected');
+    } catch (error) {
+      console.error('Error disconnecting from AuthClient:', error);
+    }
+
+    try {
+      await this.CartClient.$disconnect();
+      console.log('CartClient disconnected');
+    } catch (error) {
+      console.error('Error disconnecting from CartClient:', error);
+    }
   }
 }

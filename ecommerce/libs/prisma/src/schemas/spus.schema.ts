@@ -3,7 +3,6 @@ import { randomUUID } from 'crypto';
 import { Document, model, Types } from 'mongoose';
 import { SlugService } from 'nestjs-slug';
 
-
 @Schema({ collection: 'Spus', timestamps: true })
 export class Spu extends Document {
   @Prop({ type: String, default: '', index: true })
@@ -24,8 +23,10 @@ export class Spu extends Document {
   @Prop({ required: true })
   product_price: number;
 
-  @Prop({ type: Array, default: [] })
-  product_category: string[];
+  // @Prop({ type: Array, default: [] })
+  // product_category: string[];
+  @Prop({ type: [Types.ObjectId], ref: 'Category', default: [] })
+  product_category: Types.ObjectId[];
 
   @Prop({ required: true })
   product_quantity: number;
@@ -65,13 +66,12 @@ export const SpuModel = model<Spu>('Spus', SpuSchema);
 // Tạo Index cho product_name và product_description
 SpuSchema.index({ product_name: 'text', product_description: 'text' });
 
-
 const slugService = new SlugService();
 // Middleware để tạo slug trước khi lưu
 SpuSchema.pre('save', function (next) {
   if (!this.product_slug) {
     this.product_slug = slugService.generateSlug(this.product_name, {
-        lowerCase: true,
+      lowerCase: true,
     });
   }
   this.product_id = randomUUID();

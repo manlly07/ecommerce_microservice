@@ -10,13 +10,11 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
-
   redis:
     image: redis:alpine
     container_name: ecommerce-redis
     ports:
       - "6379:6379"
-
   auth-db:
     image: mysql:8.4.2
     container_name: ecommerce-auth-db
@@ -48,7 +46,6 @@ services:
     command: --lower_case_table_names=2
     volumes:
       - ./docker/data/order:/var/lib/mysql
-
   product-db:
     image: mongo:latest
     container_name: ecommerce-product-db
@@ -70,7 +67,6 @@ services:
       - ./docker/prometheus/prometheus_data:/prometheus
     ports:
       - "9090:9090"
-
   grafana:
     image: grafana/grafana:latest
     container_name: ecommerce-grafana
@@ -82,6 +78,17 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+
+
+  users-api:
+    build: 
+      context: .
+      dockerfile: ./apps/users/Dockerfile
+    container_name: users-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - /package.json:/package.json 
 volumes:
   auth-db-data:
   product-db-data:

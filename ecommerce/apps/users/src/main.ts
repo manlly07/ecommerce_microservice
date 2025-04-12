@@ -3,9 +3,9 @@ import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
 import * as dotenv from 'dotenv';
 import { AllExceptionsFilter, ResponseInterceptor } from 'y/configs';
-dotenv.config()
+dotenv.config();
 async function bootstrap() {
-  const PORT = process.env.USERS_PORT || 3000;
+  const PORT = process.env.USERS_PORT || 5000;
   // const app = await NestFactory.createMicroservice(AppModule, {
   //   transport: Transport.TCP,
   //   options: {
@@ -18,8 +18,8 @@ async function bootstrap() {
     transport: Transport.TCP,
     options: {
       port: PORT,
-    }
-  })
+    },
+  });
   await app.startAllMicroservices();
   // app.useGlobalInterceptors(new ResponseInterceptor());
   // app.useGlobalFilters(new AllExceptionsFilter());

@@ -13,7 +13,6 @@ export class AddressController {
 
   @Post('update')
   update(@Body() data: UserAddress) {
-    console.log(data);
     return this._addressService.update(data);
   }
 
@@ -24,7 +23,6 @@ export class AddressController {
 
   @Get(':id')
   findById(@Param('id') id: string) {
-    console.log(id);
     return this._addressService.findById(id);
   }
 

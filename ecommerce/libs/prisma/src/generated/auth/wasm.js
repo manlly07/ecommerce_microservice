@@ -183,6 +183,8 @@ exports.Prisma.UserAddressScalarFieldEnum = {
   street: 'street',
   district: 'district',
   city: 'city',
+  type: 'type',
+  isDefault: 'isDefault',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted'
@@ -246,7 +248,8 @@ exports.Prisma.UserAddressOrderByRelevanceFieldEnum = {
   user_id: 'user_id',
   street: 'street',
   district: 'district',
-  city: 'city'
+  city: 'city',
+  type: 'type'
 };
 exports.Gender = exports.$Enums.Gender = {
   MALE: 'MALE',

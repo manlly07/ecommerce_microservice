@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRoleRepository } from 'y/repositories/user_role.repository';
+import { UserRoleRepository } from 'libs/repositories/users/user_role.repository';
 
 @Injectable()
 export class UserroleService {
   constructor(private readonly _userRoleRepository: UserRoleRepository) {}
-  async create(createUserroleDto: { user_id: string, role_id: string}) {
+  async create(createUserroleDto: { user_id: string; role_id: string }) {
     console.log(createUserroleDto);
     return await this._userRoleRepository.create(createUserroleDto);
   }
@@ -12,5 +12,4 @@ export class UserroleService {
   async findAll() {
     return await this._userRoleRepository.findAll();
   }
-
 }

@@ -24,15 +24,16 @@ model Carts {
 }
 
 model CartItem {
+  id           String   @id @default(uuid())
   product_id   String
   cart_id      String
+  sku_id       String?
   quantity     Int      @default(1)
   product_shop String
+  isSelected   Boolean? @default(false)
   isDeleted    Boolean  @default(false)
   created_at   DateTime @default(now())
   updated_at   DateTime @default(now()) @updatedAt
 
   carts Carts @relation(fields: [cart_id], references: [id])
-
-  @@id([product_id, cart_id])
 }
